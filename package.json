@@ -1,0 +1,20 @@
+{
+  "name": "git-multi-ssh",
+  "version": "0.0.1",
+  "description": "Setup multiple Git SSH identities easily",
+  "type": "module",
+  "bin": {
+    "git-multi-ssh": "./bin/index.js"
+  },
+  "dependencies": {
+    "inquirer": "^9.0.0",
+    "chalk": "^5.0.0",
+    "ora": "^6.0.0"
+  },
+  "keywords": [
+    "git",
+    "ssh",
+    "multi-account"
+  ],
+  "license": "MIT"
+}
