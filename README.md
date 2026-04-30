@@ -28,24 +28,36 @@ When you create a new account (like `work` or `personal`), the tool:
 
 ## Install
 
-### Option 1: One-command setup (recommended)
+### Quick setup (One command)
+
+The fastest way to get started:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup.sh | bash
+bash <(curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup.sh)
 ```
 
-This script will:
-- Clone or update this repo in `~/.git-multi-ssh`
-- Install dependencies
-- Link the CLI globally
+**What this does:**
+1. Downloads and runs `setup.sh` from the repo
+2. Clones (or updates) the repo to `~/.git-multi-ssh`
+3. Installs npm dependencies
+4. Makes `git-multi-ssh` available globally
 
-After setup, run:
+After it finishes, you'll see:
+```
+✅ Done! Run: git-multi-ssh
+```
+
+Then start using it right away:
 
 ```bash
 git-multi-ssh
 ```
 
-### Option 2: Local development install
+**Note:** This requires `curl`, `git`, `Node.js`, and `npm` to be installed already. See [Prerequisites](#prerequisites) above.
+
+### Local setup (For development or manual control)
+
+If you prefer more control or want to contribute:
 
 ```bash
 git clone https://github.com/sahulkola/git-multi-ssh.git
@@ -54,7 +66,7 @@ npm install
 npm link
 ```
 
-Now run:
+Then run:
 
 ```bash
 git-multi-ssh
