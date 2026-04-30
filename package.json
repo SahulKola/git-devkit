@@ -1,15 +1,26 @@
 {
   "name": "git-multi-ssh",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Setup multiple Git SSH identities easily",
   "type": "module",
   "bin": {
     "git-multi-ssh": "./bin/index.js"
   },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && node scripts/build.mjs",
+    "pack:check": "npm run build && npm pack ./dist --dry-run",
+    "publish:npm": "npm run build && npm publish ./dist --access public",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
-    "inquirer": "^9.0.0",
     "chalk": "^5.0.0",
+    "inquirer": "^9.0.0",
     "ora": "^6.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12",
+    "rimraf": "^6.1.3"
   },
   "keywords": [
     "git",
