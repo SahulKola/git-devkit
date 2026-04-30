@@ -4,8 +4,14 @@
   "description": "Setup multiple Git SSH identities easily",
   "type": "module",
   "bin": {
-    "git-multi-ssh": "./bin/index.js"
+    "git-multi-ssh": "bin/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sahulkola/git-multi-ssh.git"
+  },
+  "homepage": "https://github.com/sahulkola/git-multi-ssh#readme",
+  "author": "Sahul Kola",
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && node scripts/build.mjs",
