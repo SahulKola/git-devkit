@@ -141,16 +141,37 @@ The tool safely updates your config files without breaking anything else.
 
 ## Useful Git shortcuts (optional)
 
-Want to save time typing? Run:
+Want to save time typing? Install productivity aliases with one command:
+
+### Quick install
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/install-aliases.sh)
+```
+
+**What this does:**
+1. Downloads and runs `install-aliases.sh` from the repo
+2. Adds git aliases to your global Git config
+3. No files are modified, just Git configuration
+
+After it finishes, you'll have convenient shortcuts:
+- `git s` — quick status
+- `git lg` — visual commit history
+- `git undo` — undo last commit (keeps your changes)
+- `git cm 'message'` — commit with message
+- `git co` — checkout branch
+- And many more...
+
+### Local install (if you cloned the repo)
 
 ```bash
 bash setup-aliases.sh
 ```
 
-This adds convenient shortcuts:
-- `git s` — quick status
-- `git lg` — visual commit history
-- `git undo` — undo last commit (keeps your changes)
+Then verify by running:
+```bash
+git config --global --get-regexp alias
+```
 
 ## Having problems?
 
