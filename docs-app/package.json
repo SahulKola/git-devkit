@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:coverage": "ng test --watch=false --coverage",
+    "build:ghpages": "ng build --configuration production --base-href /git-devkit/",
     "serve:ssr:docs-app": "node dist/docs-app/server/server.mjs"
   },
   "private": true,
