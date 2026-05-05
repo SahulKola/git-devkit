@@ -4,10 +4,12 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
 import os from 'os';
+import fs from 'fs';
+import path from 'path';
 import { execSync } from 'child_process';
 import { generateConfigs } from '../lib/generator.js';
 import { getExistingSetupInfo, writeConfigs, cleanupAccounts } from '../lib/fileManager.js';
-import { expandHome, normalizeAccountType } from '../lib/utils.js';
+import { expandHome, normalizeAccountType, normalizePath, isWindows, getSshDirectory } from '../lib/utils.js';
 
 const home = os.homedir();
 
@@ -264,8 +266,11 @@ async function promptNewAccount(authorName, sessionTypes, existingTypes) {
       name: 'folder',
       message: 'Project folder for this account:',
       default: `~/Developer/${type}`,
-      validate: v =>
-        v.startsWith('/') || v.startsWith('~') ? true : 'Use absolute path (e.g. ~/Developer/work)',
+      validate: v => {
+        if (v.startsWith('/') || v.startsWith('~')) return true;
+        if (isWindows() && /^[C-Zc-z]:/.test(v)) return true; // Windows absolute path
+        return 'Use absolute path (e.g. ~/Developer/work or C:\\Users\\Name\\Developer\\work)';
+      },
     },
   ]);
 
@@ -295,46 +300,62 @@ async function promptAuthorName(defaultName) {
 // ─── Shared: finalize (generate keys, write configs, verify) ───────────────────
 async function finalizeAccounts(accounts) {
   console.log('');
+  const sshDir = getSshDirectory();
 
   for (const acc of accounts) {
-    const keyPath = `${home}/.ssh/id_ed25519_${acc.type}`;
+    const keyPath = path.join(sshDir, `id_ed25519_${acc.type}`);
     const spinner = ora(`Generating SSH key for "${acc.type}"`).start();
 
-    execSync(`mkdir -p ${home}/.ssh && chmod 700 ${home}/.ssh`, { stdio: 'ignore' });
+    // Create SSH directory with proper cross-platform handling
+    try {
+      fs.mkdirSync(sshDir, { recursive: true });
+      if (!isWindows()) {
+        fs.chmodSync(sshDir, 0o700);
+      }
+    } catch (e) {
+      // Directory may already exist
+    }
 
     try {
-      execSync(`test -f ${keyPath}`);
+      fs.statSync(keyPath);
       spinner.warn(`Key already exists: ${keyPath} (kept existing)`);
     } catch {
-      execSync(`ssh-keygen -t ed25519 -C "${acc.email}" -f ${keyPath} -N ""`, { stdio: 'ignore' });
+      const sshKeygenCmd = isWindows()
+        ? `ssh-keygen -t ed25519 -C \"${acc.email}\" -f \"${keyPath}\" -N \"\"`
+        : `ssh-keygen -t ed25519 -C '${acc.email}' -f '${keyPath}' -N ''`;
+      execSync(sshKeygenCmd, { stdio: 'ignore' });
       spinner.succeed(`SSH key created: ${keyPath}`);
     }
 
     // Add to SSH agent
     try {
       if (process.platform === 'darwin') {
-        execSync(`ssh-add --apple-use-keychain ${keyPath}`, { stdio: 'ignore' });
+        execSync(`ssh-add --apple-use-keychain \"${keyPath}\"`, { stdio: 'ignore' });
       } else {
-        execSync(`ssh-add ${keyPath}`, { stdio: 'ignore' });
+        execSync(`ssh-add \"${keyPath}\"`, { stdio: 'ignore' });
       }
     } catch {
       console.log(chalk.yellow('  ⚠  Run `eval $(ssh-agent)` if the key was not added'));
     }
 
     // Display public key
-    const pubKey = execSync(`cat ${keyPath}.pub`).toString().trim();
-    const providerInfo = PROVIDERS[acc.provider];
-    console.log(chalk.gray(`\n  📋 Copy this key and add it to ${providerInfo?.name || acc.hostname}:\n`));
-    console.log(`  ${pubKey}\n`);
+    try {
+      const pubKey = fs.readFileSync(`${keyPath}.pub`, 'utf-8').trim();
+      const providerInfo = PROVIDERS[acc.provider];
+      console.log(chalk.gray(`\n  📋 Copy this key and add it to ${providerInfo?.name || acc.hostname}:\n`));
+      console.log(`  ${pubKey}\n`);
 
-    if (providerInfo?.sshUrl) {
-      console.log(chalk.gray(`  🔗 ${providerInfo.sshUrl}\n`));
-      try {
-        const cmd =
-          process.platform === 'darwin' ? 'open' :
-            process.platform === 'win32' ? 'start' : 'xdg-open';
-        execSync(`${cmd} ${providerInfo.sshUrl}`, { stdio: 'ignore' });
-      } catch { /* silently skip if browser can't open */ }
+      if (providerInfo?.sshUrl) {
+        console.log(chalk.gray(`  🔗 ${providerInfo.sshUrl}\n`));
+        try {
+          const cmd =
+            process.platform === 'darwin' ? 'open' :
+              process.platform === 'win32' ? 'start' : 'xdg-open';
+          execSync(`${cmd} \"${providerInfo.sshUrl}\"`, { stdio: 'ignore' });
+        } catch { /* silently skip if browser can't open */ }
+      }
+    } catch (e) {
+      spinner.fail(`Could not read public key: ${e.message}`);
     }
   }
 
