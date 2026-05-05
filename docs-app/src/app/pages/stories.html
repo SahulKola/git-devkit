@@ -1,0 +1,247 @@
+<section class="stories-page">
+    <div class="container">
+        <div class="page-header">
+            <p class="eyebrow">Real-World Stories</p>
+            <h1>When Git Chaos Turns Into Shipping Flow</h1>
+            <p>
+                A practical, story-driven look at why git-multi-ssh + strong aliases matter in day-to-day work.
+                These are real situations developers hit every week, and how this setup acts like a safety net.
+            </p>
+        </div>
+
+        <div class="section highlight">
+            <h2>Why This Matters Over Time</h2>
+            <p>
+                One small mistake in identity, branch handling, or commit flow can cost a full hour. Teams repeat this
+                friction daily. Removing that friction compounds. Over a month, clean identity switching and predictable
+                git commands can save dozens of context switches and produce clearer commit history for everyone.
+            </p>
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <h3>Fewer Interruptions</h3>
+                    <p>No more stopping to debug "why did Git use the wrong account?" in the middle of focused work.</p>
+                </div>
+                <div class="impact-item">
+                    <h3>Higher Commit Quality</h3>
+                    <p>Aliases encourage short, consistent flows: stage, inspect, commit, push with safer defaults.</p>
+                </div>
+                <div class="impact-item">
+                    <h3>Better Team Trust</h3>
+                    <p>Cleaner branch history and identity correctness make reviews and audits faster and more reliable.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="multi-ssh-scenarios">
+            <h2>Scenarios Without git-multi-ssh and How to Mitigate Them</h2>
+            <p>
+                These are common incidents teams face when identity routing is manual. Each scenario shows the
+                risk without multi-SSH and the direct mitigation when git-multi-ssh is in place.
+            </p>
+            <div class="scenario-grid">
+                <article class="scenario-item">
+                    <h3>Wrong identity pushed to client repository</h3>
+                    <p><strong>Without git-multi-ssh:</strong> Commits land with personal email in enterprise repos,
+                        creating audit and attribution issues.</p>
+                    <p><strong>Mitigation with git-multi-ssh:</strong> Directory-based key routing enforces the correct
+                        identity automatically before push.</p>
+                </article>
+                <article class="scenario-item">
+                    <h3>Frequent key switching breaks flow</h3>
+                    <p><strong>Without git-multi-ssh:</strong> Developers pause repeatedly to edit SSH config or test
+                        which key is active.</p>
+                    <p><strong>Mitigation with git-multi-ssh:</strong> One-time setup removes repeated key toggling and
+                        keeps focus on coding.</p>
+                </article>
+                <article class="scenario-item">
+                    <h3>Access denied on the right repo with the wrong key</h3>
+                    <p><strong>Without git-multi-ssh:</strong> Push/pull failures appear random when shell sessions hold
+                        stale SSH identity assumptions.</p>
+                    <p><strong>Mitigation with git-multi-ssh:</strong> Host and path mappings provide deterministic key
+                        selection for every repository.</p>
+                </article>
+                <article class="scenario-item">
+                    <h3>Onboarding takes hours of tribal setup</h3>
+                    <p><strong>Without git-multi-ssh:</strong> New engineers depend on undocumented SSH rules and manual
+                        troubleshooting.</p>
+                    <p><strong>Mitigation with git-multi-ssh:</strong> Standardized setup commands make onboarding
+                        repeatable and fast.</p>
+                </article>
+                <article class="scenario-item">
+                    <h3>Open source and work attribution gets mixed</h3>
+                    <p><strong>Without git-multi-ssh:</strong> Maintainers accidentally publish commits from the wrong
+                        organization identity.</p>
+                    <p><strong>Mitigation with git-multi-ssh:</strong> Folder-based identity boundaries keep personal
+                        and
+                        work activity separated by default.</p>
+                </article>
+                <article class="scenario-item">
+                    <h3>Compliance checks fail due to author mismatch</h3>
+                    <p><strong>Without git-multi-ssh:</strong> Security and audit trails require manual cleanup after
+                        merges.</p>
+                    <p><strong>Mitigation with git-multi-ssh:</strong> Correct identity assignment at source preserves a
+                        clean, reliable audit trail.</p>
+                </article>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Story 1: The Consultant Juggling Three Clients</h2>
+            <p class="meta">Situation: Priya works across GitHub (personal), GitLab (Client A), and Bitbucket (Client
+                B).</p>
+            <p>
+                Before: Priya manually edited SSH config and forgot to switch identity twice in one week. One commit
+                landed
+                under the wrong email, forcing a cleanup in project records.
+            </p>
+            <p>
+                After: She configured identities once with git-multi-ssh and used directory-based identity routing.
+                Her machine now picks the right key automatically. No manual switching, no accidental author mismatch.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Admin cleanup disappeared, and review threads stayed focused on
+                code.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 2: The Startup Team During Release Week</h2>
+            <p class="meta">Situation: A five-person team ships fast, with many tiny fixes and hot patches.</p>
+            <p>
+                Before: Commits were inconsistent. Some had vague messages, others combined unrelated changes.
+                During release triage, finding root causes took too long.
+            </p>
+            <p>
+                After: The team adopted alias-driven workflows like git s, git ds, git cm, git lg, and git can.
+                Developers followed the same lightweight sequence, producing smaller and clearer commits.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Faster rollbacks, easier blame tracing, and cleaner pull request
+                reviews.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 3: The New Engineer Onboarding</h2>
+            <p class="meta">Situation: Alex joins a product team with multiple repos and strict branch rules.</p>
+            <p>
+                Before: Alex spent the first days memorizing custom git conventions and asking for help with basic flow.
+            </p>
+            <p>
+                After: With standard aliases and a documented identity setup, Alex followed copy-paste friendly
+                commands.
+                The toolchain communicated team defaults through behavior instead of tribal knowledge.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Onboarding time dropped, and mentors spent less time on
+                repetitive git support.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 4: The "Wrong Push" Near-Miss</h2>
+            <p class="meta">Situation: A developer almost force-pushed to a shared branch during a rebase fix.</p>
+            <p>
+                Before: Muscle memory used unsafe push commands under stress.
+            </p>
+            <p>
+                After: The alias set normalized safer commands like force-with-lease and quick visibility checks.
+                Combined with clean identity routing, high-risk operations became deliberate instead of accidental.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Fewer dangerous mistakes and more confidence during
+                high-pressure fixes.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 5: The Enterprise Multi-Team Coordination</h2>
+            <p class="meta">Situation: A large org with 50+ developers, multiple teams, GitHub Enterprise + legacy
+                GitLab instance.</p>
+            <p>
+                Before: Developers constantly complained about "which SSH key am I using?" Audits showed commits from
+                wrong identities scattered across repos. Onboarding a new dev took half a day just for identity setup.
+                Compliance reviews flagged identity mismatches.
+            </p>
+            <p>
+                After: Enterprise rolled out git-multi-ssh with standardized conventional commit style. Directory
+                patterns (.github, .gitlab, .legacy) auto-routed identities. One setup playbook replaced tribal
+                knowledge. Audits became automatic.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Compliance confidence, faster onboarding (2 hours → 20 min),
+                zero mismatched-identity bugs reported.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 6: The Open Source Maintainer Workflow</h2>
+            <p class="meta">Situation: Sam maintains 3 popular open-source projects plus a day job, switching between
+                personal and sponsor-account commits.</p>
+            <p>
+                Before: Accidentally committed to open-source repos with work email three times. Sponsor commits merged
+                under personal identity, causing attribution issues and confusion around funding.
+            </p>
+            <p>
+                After: Configured directory-based identities (~/code/oss uses personal key, ~/code/work uses work key).
+                Aliased workflow for consistent commit messages with proper tags. Release workflow uses semantic
+                versioning aliases like git tag/release.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Perfect identity matching, proper sponsor attribution, cleaner
+                release notes, community trust reinforced.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 7: The Legacy Codebase Refactor Sprint</h2>
+            <p class="meta">Situation: A team is refactoring a 10-year-old monolith, moving 100+ files, many parallel
+                work streams.</p>
+            <p>
+                Before: Merge conflicts, tangled history, hard to trace which refactor moved what. Blame didn't help
+                because commits lacked context. Release notes were useless ("WIP", "fix").
+            </p>
+            <p>
+                After: Team enforced conventional commits (refactor(auth):, feat(api):). Used aliases git ap (stage
+                hunks), git cm, and git lg to maintain clarity. Squashing and fixup aliases cleaned up WIP commits
+                before merge. History became readable.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Faster code review, confident rollbacks, refactor traced to
+                specific commits, technical debt visible in history.</p>
+        </div>
+
+        <div class="section">
+            <h2>Story 8: The Security Incident Response</h2>
+            <p class="meta">Situation: A security team needs to audit who deployed what and when across 10 services in
+                production.</p>
+            <p>
+                Before: Commits had multiple identities (name/email inconsistencies), timestamps were unclear, history
+                was tangled with merge commits. Audit trail took days to reconstruct.
+            </p>
+            <p>
+                After: Clean identity routing ensures every commit is traceable to a person. Conventional commits with
+                deployment tags (deploy(service-a): v1.2.3) make tracking automatic. git log --author, git lg, and git
+                who aliased give instant visibility.
+            </p>
+            <p class="result"><strong>Outcome:</strong> Audit compliance passed, incident response time cut by 75%,
+                clear accountability chain.</p>
+        </div>
+
+        <div class="section">
+            <h2>Commit Quality Playbook (Practical Pattern)</h2>
+            <div class="code-block">
+                <pre><code>git s                         <span class="dim"># confirm branch + changed files</span>
+git ap                        <span class="dim"># stage intentional hunks only</span>
+git ds                        <span class="dim"># verify staged diff</span>
+git cm "fix(auth): handle token refresh race"
+git lg                        <span class="dim"># inspect local history quality</span>
+git ps                        <span class="dim"># push when history is clean</span></code></pre>
+            </div>
+            <p>
+                This sequence nudges developers toward focused commits and readable history. Over time,
+                it improves release notes, debugging speed, and confidence during refactors.
+            </p>
+        </div>
+
+        <div class="section section-cta">
+            <h2>Build Your Own Productivity Baseline</h2>
+            <p>
+                Treat this setup as infrastructure for developer experience. Configure once, reduce repeated friction,
+                and let your team spend energy on architecture and product work instead of avoidable git mistakes.
+            </p>
+            <div class="cta">
+                <a routerLink="/installation" class="btn-primary">Set It Up</a>
+                <a routerLink="/aliases" class="btn-secondary">Explore All Aliases</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,212 @@
+<section class="commits-page">
+    <div class="container">
+        <div class="page-header">
+            <p class="eyebrow">Commit Standards</p>
+            <h1>Conventional Commits</h1>
+            <p>
+                A specification for adding human and machine readable meaning to commit messages.
+                Used in industry for automated versioning, changelog generation, and team clarity.
+            </p>
+        </div>
+
+        <div class="section highlight">
+            <h2>Why Conventional Commits?</h2>
+            <div class="benefit-grid">
+                <div class="benefit-item">
+                    <span class="icon">🤖</span>
+                    <h3>Automation</h3>
+                    <p>Semantic versioning, changelogs, and CI/CD pipelines parse your commits automatically.</p>
+                </div>
+                <div class="benefit-item">
+                    <span class="icon">📖</span>
+                    <h3>Clarity</h3>
+                    <p>Team members instantly understand what changed and why without reading code.</p>
+                </div>
+                <div class="benefit-item">
+                    <span class="icon">🔍</span>
+                    <h3>Searchability</h3>
+                    <p>Filter history by type: bugfixes, features, breaking changes—it's all tagged.</p>
+                </div>
+                <div class="benefit-item">
+                    <span class="icon">📊</span>
+                    <h3>Metrics</h3>
+                    <p>Analyze team productivity: feature velocity, bug trends, code quality signals.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Basic Format</h2>
+            <div class="code-block">
+                <pre><code>&lt;type&gt;[optional scope]: &lt;description&gt;
+
+[optional body]
+
+[optional footer(s)]</code></pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Commit Types</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <code class="type-name">feat</code>
+                    <p>A new feature</p>
+                    <p class="example">feat(auth): add two-factor authentication</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">fix</code>
+                    <p>A bug fix</p>
+                    <p class="example">fix(api): handle null response in webhook</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">docs</code>
+                    <p>Documentation only</p>
+                    <p class="example">docs: update README with new endpoints</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">style</code>
+                    <p>Code style (not logic)</p>
+                    <p class="example">style: format code with prettier</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">refactor</code>
+                    <p>Code restructure, no feature change</p>
+                    <p class="example">refactor(db): extract query builders to utils</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">perf</code>
+                    <p>Performance improvement</p>
+                    <p class="example">perf(cache): implement redis memoization</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">test</code>
+                    <p>Add or update tests</p>
+                    <p class="example">test(auth): add password reset flow tests</p>
+                </div>
+                <div class="type-card">
+                    <code class="type-name">chore</code>
+                    <p>Build, deps, tooling (no code change)</p>
+                    <p class="example">chore: upgrade typescript to 5.2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Real Examples</h2>
+
+            <h3>Simple Fix (One-Liner)</h3>
+            <div class="code-block">
+                <pre><code>fix(ui): correct button alignment on mobile</code></pre>
+            </div>
+
+            <h3>Feature with Scope</h3>
+            <div class="code-block">
+                <pre><code>feat(payment): add stripe integration for subscriptions</code></pre>
+            </div>
+
+            <h3>With Detailed Body</h3>
+            <div class="code-block">
+                <pre><code>refactor(auth): migrate session store to Redis
+
+Previously used in-memory session storage which caused issues
+in multi-instance deployments. Now uses Redis for shared state.
+
+Benefits:
+- Horizontal scaling enabled
+- Session persistence across restarts
+- Reduced memory footprint per instance
+
+Tests updated to use mock Redis.</code></pre>
+            </div>
+
+            <h3>Breaking Change</h3>
+            <div class="code-block">
+                <pre><code>feat(api)!: change pagination to cursor-based
+
+BREAKING CHANGE: The /items endpoint no longer accepts 
+offset/limit params. Use cursor-based pagination instead.
+
+Old: GET /items?offset=10&limit=20
+New: GET /items?cursor=xyz&limit=20</code></pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Scopes (Optional)</h2>
+            <p>Scopes help identify which part of the system changed. Common examples:</p>
+            <div class="code-block">
+                <pre><code>feat(auth): ...      <span class="dim"># authentication module</span>
+fix(api): ...        <span class="dim"># api endpoints</span>
+refactor(db): ...    <span class="dim"># database layer</span>
+docs(deployment): .. <span class="dim"># deployment docs</span>
+perf(ui): ...        <span class="dim"># frontend performance</span></code></pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Best Practices</h2>
+            <ul class="practices-list">
+                <li><strong>Use imperative mood:</strong> "add" not "added", "fix" not "fixed"</li>
+                <li><strong>No period at end:</strong> "add feature" not "add feature."</li>
+                <li><strong>Lowercase description:</strong> "add feature" not "Add feature"</li>
+                <li><strong>Keep subject under 50 chars:</strong> Readable in git logs and GitHub</li>
+                <li><strong>Wrap body at 72 chars:</strong> For terminal readability</li>
+                <li><strong>Explain what and why, not how:</strong> Code shows how; message explains intent</li>
+                <li><strong>One logical change per commit:</strong> Makes history bisectable and reviewable</li>
+                <li><strong>Breaking changes go in footer:</strong> Tools can parse and alert on these</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Quick Reference with Aliases</h2>
+            <p>Combine conventional commits with git-devkit aliases for a smooth workflow:</p>
+            <div class="code-block">
+                <pre><code>git s                    <span class="dim"># check status</span>
+git ap                   <span class="dim"># stage intentional hunks</span>
+git ds                   <span class="dim"># review staged changes</span>
+git cm "feat(api): add endpoint"
+git lg                   <span class="dim"># inspect local history</span>
+git ps                   <span class="dim"># push to remote</span></code></pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Tools & Integration</h2>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <h3>commitizen</h3>
+                    <p>Interactive prompt to write compliant commits</p>
+                    <code>npm install -g commitizen</code>
+                </div>
+                <div class="tool-item">
+                    <h3>husky + commitlint</h3>
+                    <p>Git hooks to validate commits before push</p>
+                    <code>npm install husky commitlint</code>
+                </div>
+                <div class="tool-item">
+                    <h3>semantic-release</h3>
+                    <p>Auto-version and changelog from commits</p>
+                    <code>npm install -D semantic-release</code>
+                </div>
+                <div class="tool-item">
+                    <h3>standard-version</h3>
+                    <p>Manual versioning with conventional commits</p>
+                    <code>npm install -D standard-version</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="section section-cta">
+            <h2>Start Writing Better Commits Today</h2>
+            <p>
+                Pair conventional commits with git-devkit aliases for a complete, professional workflow.
+                Your future self (and your team) will thank you when debugging production issues.
+            </p>
+            <div class="cta">
+                <a routerLink="/aliases" class="btn-primary">View All Aliases</a>
+                <a routerLink="/stories" class="btn-secondary">See Real-World Impact</a>
+            </div>
+        </div>
+    </div>
+</section>

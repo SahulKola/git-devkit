@@ -1,0 +1,72 @@
+<section class="install-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>git-multi-ssh</h1>
+      <p>Set up identity-safe Git workflows for multi-account development.</p>
+    </div>
+
+    <div class="section">
+      <h2>Why It Matters in Daily Development</h2>
+      <p>
+        git-multi-ssh helps developers who work across personal, client, and company repositories.
+        It routes the correct SSH identity automatically, so you do not have to keep switching keys or
+        re-checking your account before every push.
+      </p>
+
+      <h3>Primary use cases</h3>
+      <ul class="value-list">
+        <li>Using multiple Git providers (GitHub, GitLab, Bitbucket) from one machine</li>
+        <li>Separating personal and work identities across different repository folders</li>
+        <li>Avoiding wrong-author commits in audits, open source, and enterprise projects</li>
+      </ul>
+
+      <h3>How it improves productivity</h3>
+      <ul class="value-list">
+        <li>Removes repeated manual key switching and identity checks</li>
+        <li>Prevents rework caused by incorrect commit email or account</li>
+        <li>Keeps review and release workflows focused on code, not Git identity cleanup</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Installation Guide</h2>
+      <p>Choose one setup path based on how you prefer to install CLI tools.</p>
+
+      <h3>Option A — npm (recommended)</h3>
+      <div class="code-block">
+        <pre><code>npm install -g git-multi-ssh
+git-multi-ssh</code></pre>
+      </div>
+
+      <h3>Option B — curl</h3>
+      <div class="code-block">
+        <pre><code>curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup.sh | bash</code></pre>
+      </div>
+
+      <h3>Option C — manual</h3>
+      <div class="code-block">
+        <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git ~/.git-multi-ssh
+cd ~/.git-multi-ssh
+npm install && npm link</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Scenarios and Mitigations</h2>
+      <p>
+        See practical situations that happen without multi-SSH setup and how this library mitigates each one.
+      </p>
+      <a routerLink="/stories" fragment="multi-ssh-scenarios" class="inline-link">View all scenarios and mitigations
+        →</a>
+    </div>
+
+    <div class="section">
+      <h2>Requirements</h2>
+      <ul class="req-list">
+        <li>Git ≥ 2.0</li>
+        <li>Node.js ≥ 18 (for git-multi-ssh)</li>
+        <li>Bash (macOS, Linux, or WSL)</li>
+      </ul>
+    </div>
+  </div>
+</section>

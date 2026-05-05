@@ -1,0 +1,79 @@
+<section class="aliases-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>Git Aliases</h1>
+      <p>Install quickly, learn the daily essentials, then explore the full reference.</p>
+    </div>
+
+    <div class="intro-section">
+      <h2>Installation Guide</h2>
+      <p>Install the complete alias set globally so every repository gets the same shortcuts.</p>
+
+      <h3>One-line install</h3>
+      <div class="code-block">
+        <pre><code>curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup-aliases.sh | bash</code></pre>
+      </div>
+
+      <h3>Manual install</h3>
+      <div class="code-block">
+        <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+cd git-multi-ssh
+bash setup-aliases.sh</code></pre>
+      </div>
+
+      <h3>Verify</h3>
+      <div class="code-block">
+        <pre><code>git aliases                   <span class="dim"># list all configured aliases</span>
+git s                         <span class="dim"># quick status</span>
+git lg                        <span class="dim"># graph log</span></code></pre>
+      </div>
+    </div>
+
+    <div class="intro-section">
+      <h2>Top Day-to-Day Shortcuts</h2>
+      <p>These are the most-used aliases for typical development flow.</p>
+      <div class="aliases-table">
+        <div class="table-header">
+          <span>Alias</span>
+          <span>Expands To</span>
+          <span>Description</span>
+        </div>
+        @for (alias of topShortcuts(); track alias.command) {
+        <div class="table-row">
+          <code class="alias-cmd">{{ alias.command }}</code>
+          <code class="alias-expansion">{{ alias.expansion }}</code>
+          <span class="alias-desc">{{ alias.description }}</span>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h2>Full Alias Reference</h2>
+      <p>Complete list of all aliases grouped by category.</p>
+    </div>
+
+    @for (category of categories(); track category.name) {
+    <div class="category">
+      <h2>
+        <span class="category-icon">{{ category.icon }}</span>
+        {{ category.name }}
+      </h2>
+      <div class="aliases-table">
+        <div class="table-header">
+          <span>Alias</span>
+          <span>Expands To</span>
+          <span>Description</span>
+        </div>
+        @for (alias of category.aliases; track alias.command) {
+        <div class="table-row">
+          <code class="alias-cmd">{{ alias.command }}</code>
+          <code class="alias-expansion">{{ alias.expansion }}</code>
+          <span class="alias-desc">{{ alias.description }}</span>
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</section>

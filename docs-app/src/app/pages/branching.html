@@ -1,0 +1,248 @@
+<section class="branching-page">
+  <div class="container">
+
+    <div class="page-header">
+      <p class="eyebrow">Flow</p>
+      <h1>Branching Strategy</h1>
+      <p>
+        Good branching conventions reduce merge conflicts, speed up code review,
+        and keep your repository navigable as teams and features scale.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Naming Conventions</h2>
+      <p>Consistent prefixes make branches machine-parseable and instantly readable. Use lowercase, kebab-case only.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption class="sr-only">Branch naming prefixes, their purpose, and examples.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Prefix</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><code>feature/</code></th>
+              <td>New functionality</td>
+              <td><code>feature/user-auth</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>fix/</code></th>
+              <td>Bug fix</td>
+              <td><code>fix/login-redirect</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>hotfix/</code></th>
+              <td>Urgent production fix</td>
+              <td><code>hotfix/payment-null</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>release/</code></th>
+              <td>Release preparation</td>
+              <td><code>release/2.1.0</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>chore/</code></th>
+              <td>Maintenance, tooling</td>
+              <td><code>chore/update-deps</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>docs/</code></th>
+              <td>Documentation only</td>
+              <td><code>docs/api-endpoints</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>test/</code></th>
+              <td>Test additions</td>
+              <td><code>test/auth-coverage</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>refactor/</code></th>
+              <td>Code restructure, no logic change</td>
+              <td><code>refactor/db-layer</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <pre><code><span class="dim"># Good</span>
+feature/user-authentication
+fix/null-pointer-on-login
+release/3.2.0
+
+<span class="dim"># Avoid</span>
+myBranch
+JIRA-1234
+wip</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Branch Lifecycle</h2>
+      <p>A defined lifecycle keeps branches short-lived and prevents drift from <code>main</code>.</p>
+      <ol class="lifecycle">
+        <li>
+          <strong>Sync</strong>
+          <span>Pull latest <code>main</code> before branching — never start from stale code.</span>
+        </li>
+        <li>
+          <strong>Create</strong>
+          <span>Branch with a prefixed, descriptive name. One purpose per branch.</span>
+        </li>
+        <li>
+          <strong>Develop</strong>
+          <span>Commit frequently with conventional messages. Stage intentional hunks, not whole files.</span>
+        </li>
+        <li>
+          <strong>Push &amp; Review</strong>
+          <span>Publish, open a PR with a clear description. Address feedback in focused follow-up commits.</span>
+        </li>
+        <li>
+          <strong>Merge &amp; Delete</strong>
+          <span>Merge the approved PR. Delete the branch immediately — locally and remotely.</span>
+        </li>
+      </ol>
+      <div class="code-block">
+        <pre><code>git done                          <span class="dim"># 1. sync — fetch + rebase main</span>
+git cb feature/auth-refresh       <span class="dim"># 2. create</span>
+git ap && git cm "feat(auth): add token refresh"  <span class="dim"># 3. develop</span>
+git publish                       <span class="dim"># 4. push + open PR</span>
+git co main && git pull           <span class="dim"># 5a. after merge lands</span>
+git brd feature/auth-refresh      <span class="dim"># 5b. delete local</span></code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Merge Strategies</h2>
+      <p>How you merge shapes your history. Choose based on what you want preserved.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption class="sr-only">Comparison of squash merge, rebase merge, and merge commit strategies.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Strategy</th>
+              <th scope="col">Result</th>
+              <th scope="col">History</th>
+              <th scope="col">Use When</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><strong>Squash Merge</strong></th>
+              <td>One clean commit</td>
+              <td>Simple, linear</td>
+              <td>Small features, many WIP commits</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>Rebase Merge</strong></th>
+              <td>Commits replayed on top</td>
+              <td>Linear, no merge commit</td>
+              <td>Personal branches, clean log preferred</td>
+            </tr>
+            <tr>
+              <th scope="row"><strong>Merge Commit</strong></th>
+              <td>Merge commit + branch history</td>
+              <td>Complete, shows topology</td>
+              <td>Long-lived branches, preserve context</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="code-block">
+        <pre><code><span class="dim"># squash WIP commits before merging</span>
+git squash                    <span class="dim"># reset --soft HEAD~N then commit</span>
+
+<span class="dim"># rebase branch onto latest main</span>
+git done                      <span class="dim"># fetch + rebase origin/main</span>
+
+<span class="dim"># preserve full branch history</span>
+git merge --no-ff feature/name</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Short-Lived vs Long-Lived</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption class="sr-only">Differences between short-lived and long-lived branches.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Criteria</th>
+              <th scope="col">Short-Lived</th>
+              <th scope="col">Long-Lived</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Lifespan</th>
+              <td>Hours to a few days</td>
+              <td>Weeks to permanent</td>
+            </tr>
+            <tr>
+              <th scope="row">Conflict risk</th>
+              <td>Low — small diff</td>
+              <td>High — drifts from main</td>
+            </tr>
+            <tr>
+              <th scope="row">Examples</th>
+              <td><code>feature/*</code>, <code>fix/*</code>, <code>chore/*</code></td>
+              <td><code>main</code>, <code>develop</code>, <code>release/*</code></td>
+            </tr>
+            <tr>
+              <th scope="row">After merge</th>
+              <td>Delete immediately</td>
+              <td>Keep, protect</td>
+            </tr>
+            <tr>
+              <th scope="row">Merge strategy</th>
+              <td>Squash or rebase</td>
+              <td>Merge commit</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Branch Protection</h2>
+      <p>Enforce good habits at the repository level. Apply to <code>main</code> and <code>develop</code> in Gitflow.
+      </p>
+      <ul class="check-list">
+        <li>No direct pushes to <code>main</code> — all changes via PR</li>
+        <li>Require at least 1 approving review before merge</li>
+        <li>Require all CI status checks to pass before merging</li>
+        <li>Dismiss stale approvals when new commits are pushed to the PR</li>
+        <li>Require the branch to be up-to-date with <code>main</code> before merging</li>
+        <li>Restrict who can force-push or delete the protected branch</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Cleanup Commands</h2>
+      <p>Stale branches add noise and slow down discovery. Run cleanup regularly.</p>
+      <div class="code-block">
+        <pre><code>git cleanup           <span class="dim"># delete all locally merged branches</span>
+git gone              <span class="dim"># find branches whose remote was deleted</span>
+git bra               <span class="dim"># list all branches local + remote</span>
+git brd feature/name  <span class="dim"># safe delete (fails if unmerged)</span>
+git brD feature/name  <span class="dim"># force delete</span></code></pre>
+      </div>
+    </div>
+
+    <div class="section section-cta">
+      <h2>Build Your Branch Discipline</h2>
+      <p>
+        Consistent naming and short-lived branches compound over time into a codebase that is
+        easy to navigate, review, and debug. Start enforcing conventions today.
+      </p>
+      <div class="cta">
+        <a routerLink="/workflows" class="btn-primary">Choose a Workflow →</a>
+        <a routerLink="/aliases" class="btn-secondary">Branch Aliases</a>
+      </div>
+    </div>
+
+  </div>
+</section>
