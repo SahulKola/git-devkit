@@ -1,6 +1,23 @@
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <app-header />
-<main id="main-content" tabindex="-1">
+@if (isRouteLoading()) {
+<div class="route-loader-overlay" role="status" aria-live="polite" aria-label="Loading next page">
+  <div class="git-loader">
+    <div class="git-graph" aria-hidden="true">
+      <span class="git-path git-path--main"></span>
+      <span class="git-path git-path--branch"></span>
+      <span class="git-node git-node--one"></span>
+      <span class="git-node git-node--two"></span>
+      <span class="git-node git-node--three"></span>
+      <span class="git-node git-node--branch"></span>
+      <span class="git-head">HEAD</span>
+      <span class="git-head-dot"></span>
+    </div>
+    <p class="route-loader-text">{{ routeLoaderLine() }}</p>
+  </div>
+</div>
+}
+<main id="main-content" tabindex="-1" [attr.aria-busy]="isRouteLoading() ? 'true' : 'false'">
   <router-outlet />
 </main>
 <app-footer />
