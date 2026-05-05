@@ -1,67 +1,63 @@
-# git-multi-ssh
+# git-devkit
 
-Manage multiple Git accounts on one machine without confusion.
+git-devkit is a cross-platform Git identity toolkit.
 
-If you switch between personal projects, work, and client code, this tool prevents common mistakes like:
-- Wrong email in commits
-- SSH keys not working for one account
-- Messy manual config files
+The primary CLI inside this project is `git-multi-ssh`, which helps you manage multiple Git/SSH identities (work, personal, client) safely and predictably across Windows, macOS, and Linux.
 
-It automates everything so each project folder automatically uses the right SSH key, email, and Git settings.
+## Naming
 
-## How it works
+- Project/repository/root folder: `git-devkit`
+- CLI tool/command: `git-multi-ssh`
 
-When you create a new account (like `work` or `personal`), the tool:
-1. Generates an SSH key just for that account
-2. Updates your SSH settings to use the right key for each folder
-3. Sets up Git to use the correct name and email per folder
-4. Shows you the public key to add to GitHub, GitLab, etc.
-5. Tests that everything works
+## What Changed (Advanced Updates)
+
+The repository now includes major improvements:
+
+- Cross-platform support for Windows, macOS, and Linux
+- Case-aware matching strategy by OS
+  - Windows/macOS use `gitdircase`
+  - Linux uses `gitdir`
+- Path normalization across OS path styles (`/`, `\\`, `~`, spaces)
+- Pure Node.js file operations for setup/config workflows
+  - Replaced shell-dependent operations with `fs`, `path`, and `os`
+- Universal setup entrypoint
+  - `npm run setup` works as the main setup flow
+- Improved config parsing for includeIf path patterns
+- Clear project/tool naming and contributor documentation
+
+## Core Capabilities
+
+`git-multi-ssh` automates account isolation by folder:
+
+1. Creates SSH keys per identity
+2. Updates `~/.ssh/config` in managed blocks
+3. Creates per-account Git config includes
+4. Configures `includeIf` rules by repo root
+5. Verifies SSH/Git setup with guided checks
 
 ## Prerequisites
 
-- macOS, Linux, or Windows (WSL/Git Bash recommended)
 - Node.js 18+
 - npm
 - Git
-- OpenSSH (`ssh`, `ssh-keygen`, `ssh-add`)
+- OpenSSH tools (`ssh`, `ssh-keygen`, `ssh-add`)
 
 ## Install
 
-### Quick setup (One command)
-
-The fastest way to get started:
+### Option 1: Clone + Setup (recommended)
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup.sh)
+git clone https://github.com/sahulkola/git-devkit.git
+cd git-devkit
+npm install
+npm run setup
 ```
 
-**What this does:**
-1. Downloads and runs `setup.sh` from the repo
-2. Clones (or updates) the repo to `~/.git-multi-ssh`
-3. Installs npm dependencies
-4. Makes `git-multi-ssh` available globally
-
-After it finishes, you'll see:
-```
-✅ Done! Run: git-multi-ssh
-```
-
-Then start using it right away:
+### Option 2: Local developer flow
 
 ```bash
-git-multi-ssh
-```
-
-**Note:** This requires `curl`, `git`, `Node.js`, and `npm` to be installed already. See [Prerequisites](#prerequisites) above.
-
-### Local setup (For development or manual control)
-
-If you prefer more control or want to contribute:
-
-```bash
-git clone https://github.com/sahulkola/git-multi-ssh.git
-cd git-multi-ssh
+git clone https://github.com/sahulkola/git-devkit.git
+cd git-devkit
 npm install
 npm link
 ```
@@ -72,179 +68,82 @@ Then run:
 git-multi-ssh
 ```
 
-## Getting started (first time)
+## Usage
 
-When you run the tool for the first time, it will ask:
-- **Your name** — shown in commit history
-- **Account label** — a simple name like "work" or "personal"
-- **Email** — the email that should appear in commits
-- **Git provider** — GitHub, GitLab, Bitbucket, or a self-hosted server
-- **Project folder** — where your repos for this account are stored
-
-Example:
-```
-Name: Alex Doe
-Label: work
-Email: alex@company.com
-Provider: GitHub
-Folder: ~/Projects/work
-```
-
-## Common setups
-
-### Personal + Work
-
-Create two accounts:
-- `personal` for `~/Projects/personal` (personal email)
-- `work` for `~/Projects/work` (company email)
-
-Now commits in each folder use the right email automatically.
-
-### Multiple clients
-
-If you work with different clients, create one account per client:
-- `client-acme` for `~/Clients/acme`
-- `client-zenith` for `~/Clients/zenith`
-
-Each client's repos use their own SSH key and email.
-
-### Self-hosted Git server
-
-You can use this with any Git server. When setting up, choose "Custom" and enter your server address like `git.mycompany.com`.
-
-The tool will generate the SSH and Git config blocks in the same way.
-
-## Cloning repositories
-
-After setup, the tool creates custom host names you use when cloning. For example:
-
-If you created a `work` account on GitHub:
-```bash
-git clone git@github-work:my-company/my-repo.git
-```
-
-If you created a `personal` account on GitLab:
-```bash
-git clone git@gitlab-personal:my-username/my-project.git
-```
-
-The tool automatically uses the right SSH key and email for each repo based on where it's located.
-
-## Adding more accounts later
-
-You can run the tool again anytime to:
-- Add a new account
-- Update an existing account
-- View your setup
-
-The tool safely updates your config files without breaking anything else.
-
-## Useful Git shortcuts (optional)
-
-Want to save time typing? Install productivity aliases with one command:
-
-### Quick install
+Start interactive setup:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/install-aliases.sh)
+git-multi-ssh
 ```
 
-**What this does:**
-1. Downloads and runs `install-aliases.sh` from the repo
-2. Adds git aliases to your global Git config
-3. No files are modified, just Git configuration
+You will be guided through:
 
-After it finishes, you'll have convenient shortcuts:
-- `git s` — quick status
-- `git lg` — visual commit history
-- `git undo` — undo last commit (keeps your changes)
-- `git cm 'message'` — commit with message
-- `git co` — checkout branch
-- And many more...
+- Account label (for example `work`, `personal`)
+- Git user name and email
+- Provider host alias and SSH key path
+- Project root directory for automatic identity routing
 
-### Local install (if you cloned the repo)
+## Cross-Platform Notes
+
+- Windows/macOS matching is effectively case-insensitive via `gitdircase`
+- Linux matching is case-sensitive via `gitdir`
+- Paths are normalized before writing rules so mixed separators and user input styles are handled consistently
+
+## Project Structure
+
+```text
+git-devkit/
+  bin/                  # CLI entrypoints (git-multi-ssh)
+  lib/                  # Core generation + file management logic
+  handbook/             # Categorized project documentation
+    getting-started/
+    guides/
+    technical/
+    status/
+  docs-app/             # Angular documentation site
+  setup.js              # Universal setup script
+```
+
+## Documentation
+
+Start with the handbook index:
+
+- [Documentation Index](handbook/README.md)
+
+Quick links by category:
+
+- Getting started: [handbook/getting-started/START_HERE.md](handbook/getting-started/START_HERE.md)
+- Quick setup: [handbook/getting-started/QUICK_START.md](handbook/getting-started/QUICK_START.md)
+- Cross-platform details: [handbook/getting-started/CROSS_PLATFORM.md](handbook/getting-started/CROSS_PLATFORM.md)
+- Project naming and structure: [handbook/guides/PROJECT_STRUCTURE.md](handbook/guides/PROJECT_STRUCTURE.md)
+- Contributor guide: [handbook/guides/CONTRIBUTORS_GUIDE.md](handbook/guides/CONTRIBUTORS_GUIDE.md)
+- Technical changes: [handbook/technical/CROSS_PLATFORM_CHANGES.md](handbook/technical/CROSS_PLATFORM_CHANGES.md)
+- Validation matrix: [handbook/technical/VALIDATION.md](handbook/technical/VALIDATION.md)
+
+## Troubleshooting
+
+If setup is not working as expected:
+
+- [handbook/getting-started/CROSS_PLATFORM.md](handbook/getting-started/CROSS_PLATFORM.md)
+- [handbook/technical/VALIDATION.md](handbook/technical/VALIDATION.md)
+- [handbook/technical/ISSUES_FIXED.md](handbook/technical/ISSUES_FIXED.md)
+
+## Contributing
+
+Please read:
+
+- [handbook/guides/CONTRIBUTORS_GUIDE.md](handbook/guides/CONTRIBUTORS_GUIDE.md)
+- [handbook/guides/NAMING_GUIDE.md](handbook/guides/NAMING_GUIDE.md)
+
+## Quality Checks
+
+Run documentation link validation before pushing:
 
 ```bash
-bash setup-aliases.sh
+npm run docs:check
 ```
 
-Then verify by running:
-```bash
-git config --global --get-regexp alias
-```
-
-## Having problems?
-
-### "git-multi-ssh: command not found"
-
-Make sure it's installed globally:
-```bash
-npm link
-```
-
-Then close and reopen your terminal.
-
-### SSH key works but connections still fail
-
-Check that:
-- You added the public key to your GitHub/GitLab account
-- You're using the right host alias when cloning (e.g., `github-work`)
-
-Test the connection:
-```bash
-ssh -T git@github.com
-```
-
-### Commits showing wrong email
-
-Inside your repo folder, check which identity is active:
-```bash
-git config user.name
-git config user.email
-```
-
-If it's wrong, make sure the repo folder matches what you set up.
-
-## Learn more
-
-Full guides and tutorials are available at the **[git-devkit documentation](https://sahulkola.github.io/git-multi-ssh/)**.
-
-Topics covered:
-- Step-by-step setup for different providers
-- Common workflows and best practices
-- Video walkthroughs
-- Real-world examples
-
-## For developers
-
-Want to contribute or run locally?
-
-```bash
-git clone https://github.com/sahulkola/git-multi-ssh.git
-cd git-multi-ssh
-npm install
-npm link
-```
-
-To develop the docs site:
-```bash
-cd docs-app
-pnpm install
-pnpm start
-```
-
-To publish a new version:
-```bash
-npm run build
-npm run pack:check
-npm run publish:npm
-```
-
-## Feedback and ideas
-
-Found a bug? Want a new feature? Have a question?
-
-Open an issue or pull request on GitHub. All feedback helps make this tool better.
+This verifies local markdown links across project-authored docs and fails if a target file is missing.
 
 ## License
 
