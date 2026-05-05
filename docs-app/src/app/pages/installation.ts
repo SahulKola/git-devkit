@@ -18,15 +18,15 @@ export class Installation {
     if (currentOs === 'windows') {
       return {
         label: 'Windows',
-        recommendedOption: 'Option A',
-        recommendationReason: 'npm works reliably in PowerShell, Git Bash, and Command Prompt.',
+        recommendedOption: 'Recommended',
+        recommendationReason: 'Use the native PowerShell or CMD bootstrap script for guided setup on Windows.',
       };
     }
 
     if (currentOs === 'macos') {
       return {
         label: 'macOS',
-        recommendedOption: 'Option B',
+        recommendedOption: 'Recommended',
         recommendationReason: 'The shell bootstrap is fastest on macOS terminals.',
       };
     }
@@ -34,31 +34,17 @@ export class Installation {
     if (currentOs === 'linux') {
       return {
         label: 'Linux',
-        recommendedOption: 'Option B',
+        recommendedOption: 'Recommended',
         recommendationReason: 'The shell bootstrap is usually the quickest Linux path.',
       };
     }
 
     return {
       label: 'Unknown OS',
-      recommendedOption: 'Option A',
-      recommendationReason: 'npm is the safest cross-platform default when OS detection is unavailable.',
+      recommendedOption: 'Recommended',
+      recommendationReason: 'The native setup script is the safest cross-platform default.',
     };
   });
-
-  protected isRecommended(option: 'npm' | 'script' | 'manual'): boolean {
-    const currentOs = this.detectedOs();
-
-    if (option === 'npm') {
-      return currentOs === 'windows' || currentOs === 'unknown';
-    }
-
-    if (option === 'script') {
-      return currentOs === 'macos' || currentOs === 'linux';
-    }
-
-    return false;
-  }
 
   private detectOs(): DetectedOs {
     if (typeof navigator === 'undefined') {

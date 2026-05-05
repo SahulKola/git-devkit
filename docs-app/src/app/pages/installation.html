@@ -33,7 +33,6 @@
       <p>Full OS support is available. Pick the path that matches your terminal and preferences.</p>
 
       <div class="install-options">
-        @if (isRecommended('script')) {
         <article class="install-option recommended">
           <div class="option-header">
             <h3>Recommended - Native setup script</h3>
@@ -60,116 +59,35 @@ setup.bat</code></pre>
 
         <article class="install-option">
           <div class="option-header">
-            <h3>Option A - npm CLI</h3>
-            <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
-          </div>
-          <p>Best universal option when you want one command that behaves consistently across all platforms.</p>
-          <div class="code-block">
-            <pre><code>npm install -g git-multi-ssh
-git-multi-ssh</code></pre>
-          </div>
-        </article>
-
-        <article class="install-option">
-          <div class="option-header">
-            <h3>Option B - Manual from source</h3>
+            <h3>Option A - Manual from source</h3>
             <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
           </div>
           <p>Recommended when you want local source control, custom edits, or contribution workflow.</p>
 
           <h4>🍎 macOS / 🐧 Linux</h4>
           <div class="code-block">
-            <pre><code>git clone https://github.com/sahulkola/git-devkit.git ~/.git-multi-ssh
-cd ~/.git-multi-ssh
+            <pre><code>git clone https://github.com/sahulkola/git-devkit.git ~/git-devkit
+cd ~/git-devkit
 npm install
 npm link</code></pre>
           </div>
 
           <h4>🪟 Windows PowerShell</h4>
           <div class="code-block">
-            <pre><code>git clone https://github.com/sahulkola/git-devkit.git $env:USERPROFILE\.git-multi-ssh
-cd $env:USERPROFILE\.git-multi-ssh
+            <pre><code>git clone https://github.com/sahulkola/git-devkit.git $env:USERPROFILE\git-devkit
+cd $env:USERPROFILE\git-devkit
 npm install
 npm link</code></pre>
           </div>
 
           <h4>🪟 Windows Command Prompt</h4>
           <div class="code-block">
-            <pre><code>git clone https://github.com/sahulkola/git-devkit.git %USERPROFILE%\.git-multi-ssh
-cd %USERPROFILE%\.git-multi-ssh
+            <pre><code>git clone https://github.com/sahulkola/git-devkit.git %USERPROFILE%\git-devkit
+cd %USERPROFILE%\git-devkit
 npm install
 npm link</code></pre>
           </div>
         </article>
-        } @else {
-        <article class="install-option recommended">
-          <div class="option-header">
-            <h3>Recommended - npm CLI</h3>
-            <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
-          </div>
-          <p>Best universal option when you want one command that behaves consistently across all platforms.</p>
-          <div class="code-block">
-            <pre><code>npm install -g git-multi-ssh
-git-multi-ssh</code></pre>
-          </div>
-        </article>
-
-        <article class="install-option">
-          <div class="option-header">
-            <h3>Option A - Native setup script</h3>
-            <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
-          </div>
-          <p>Use the OS-specific bootstrap script for a guided setup in your preferred shell.</p>
-
-          <h4>🍎 macOS / 🐧 Linux</h4>
-          <div class="code-block">
-            <pre><code>curl -fsSL https://raw.githubusercontent.com/sahulkola/git-devkit/main/setup.sh | bash</code></pre>
-          </div>
-
-          <h4>🪟 Windows PowerShell</h4>
-          <div class="code-block">
-            <pre><code>irm https://raw.githubusercontent.com/sahulkola/git-devkit/main/setup.ps1 | iex</code></pre>
-          </div>
-
-          <h4>🪟 Windows Command Prompt</h4>
-          <div class="code-block">
-            <pre><code>curl -L -o setup.bat https://raw.githubusercontent.com/sahulkola/git-devkit/main/setup.bat
-setup.bat</code></pre>
-          </div>
-        </article>
-
-        <article class="install-option">
-          <div class="option-header">
-            <h3>Option B - Manual from source</h3>
-            <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
-          </div>
-          <p>Recommended when you want local source control, custom edits, or contribution workflow.</p>
-
-          <h4>🍎 macOS / 🐧 Linux</h4>
-          <div class="code-block">
-            <pre><code>git clone https://github.com/sahulkola/git-devkit.git ~/.git-multi-ssh
-cd ~/.git-multi-ssh
-npm install
-npm link</code></pre>
-          </div>
-
-          <h4>🪟 Windows PowerShell</h4>
-          <div class="code-block">
-            <pre><code>git clone https://github.com/sahulkola/git-devkit.git $env:USERPROFILE\.git-multi-ssh
-cd $env:USERPROFILE\.git-multi-ssh
-npm install
-npm link</code></pre>
-          </div>
-
-          <h4>🪟 Windows Command Prompt</h4>
-          <div class="code-block">
-            <pre><code>git clone https://github.com/sahulkola/git-devkit.git %USERPROFILE%\.git-multi-ssh
-cd %USERPROFILE%\.git-multi-ssh
-npm install
-npm link</code></pre>
-          </div>
-        </article>
-        }
       </div>
     </div>
 
