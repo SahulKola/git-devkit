@@ -17,7 +17,7 @@
 
 .logo {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.14rem;
   letter-spacing: -0.02em;
   font-family: 'JetBrains Mono', monospace;
   color: var(--text);
@@ -193,10 +193,15 @@
   background: none;
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 0.3rem 0.5rem;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
   cursor: pointer;
   font-size: 0.9rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text);
   transition: border-color 0.2s;
 
@@ -398,6 +403,10 @@
 }
 
 @media (max-width: 640px) {
+  .logo {
+    font-size: 1.2rem;
+  }
+
   .desktop-nav {
     display: none;
   }
