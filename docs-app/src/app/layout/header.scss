@@ -20,6 +20,18 @@
   font-size: 1rem;
   letter-spacing: -0.02em;
   font-family: 'JetBrains Mono', monospace;
+  color: var(--text);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.git-brand {
+  color: #EA6F37;
+  font-weight: 800;
 }
 
 // Desktop nav
