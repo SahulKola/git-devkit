@@ -1,0 +1,179 @@
+.branching-page { padding: 3rem 0 4rem; }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-header {
+  margin-bottom: 3rem;
+
+  .eyebrow {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    line-height: 1.7;
+    max-width: 680px;
+  }
+}
+
+.section {
+  margin-bottom: 2.75rem;
+  padding-bottom: 2.75rem;
+  border-bottom: 1px solid var(--border);
+
+  &:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.65rem; }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.75;
+    margin-bottom: 0.55rem;
+    code { font-size: 0.82rem; background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 3px; }
+  }
+}
+
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.75rem 0 0.9rem;
+
+  pre { padding: 1rem 1.2rem; margin: 0; }
+  code { font-size: 0.82rem; line-height: 1.7; color: var(--code-text); }
+  .dim { color: var(--text-muted); }
+}
+
+.table-wrap { overflow-x: auto; margin-top: 0.75rem; margin-bottom: 0.5rem; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+
+  th, td { padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); }
+
+  th {
+    background: var(--bg-subtle);
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  td {
+    color: var(--text-secondary);
+    &:first-child { color: var(--text); font-weight: 500; }
+    code { font-size: 0.78rem; background: var(--code-bg); padding: 0.1rem 0.3rem; border-radius: 3px; }
+  }
+
+  tr:last-child td { border-bottom: none; }
+}
+
+.lifecycle {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  counter-reset: step;
+
+  li {
+    counter-increment: step;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-muted);
+
+    &:last-child { border-bottom: none; }
+
+    &::before {
+      content: counter(step);
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    strong { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 0.15rem; }
+    span {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      code { font-size: 0.78rem; background: var(--code-bg); padding: 0.1rem 0.3rem; border-radius: 3px; }
+    }
+  }
+}
+
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+
+  li {
+    padding: 0.4rem 0 0.4rem 1.5rem;
+    position: relative;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+
+    &::before { content: '✓'; position: absolute; left: 0; color: var(--text-muted); font-weight: 600; }
+    code { font-size: 0.8rem; background: var(--code-bg); padding: 0.1rem 0.3rem; border-radius: 3px; }
+  }
+}
+
+.section-cta p { margin-bottom: 1rem; }
+
+.cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.58rem 1.35rem;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: opacity 0.2s;
+  &:hover { opacity: 0.86; }
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.58rem 1.35rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  &:hover { color: var(--text); border-color: var(--text-muted); }
+}

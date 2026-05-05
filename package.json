@@ -1,7 +1,7 @@
 {
-  "name": "git-multi-ssh",
+  "name": "git-devkit",
   "version": "0.0.2",
-  "description": "Setup multiple Git SSH identities easily",
+  "description": "A comprehensive developer toolkit for Git advanced users. Includes git-multi-ssh for managing multiple Git SSH identities.",
   "type": "module",
   "bin": {
     "git-multi-ssh": "bin/index.js"
@@ -13,6 +13,8 @@
   "homepage": "https://github.com/sahulkola/git-multi-ssh#readme",
   "author": "Sahul Kola",
   "scripts": {
+    "setup": "node setup.js",
+    "start": "git-multi-ssh",
     "clean": "rimraf dist",
     "build": "npm run clean && node scripts/build.mjs",
     "pack:check": "npm run build && npm pack ./dist --dry-run",

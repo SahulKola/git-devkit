@@ -1,0 +1,224 @@
+<section class="workflows-page">
+  <div class="container">
+
+    <div class="page-header">
+      <p class="eyebrow">Flow</p>
+      <h1>Git Workflows</h1>
+      <p>
+        A workflow defines how your team branches, reviews, and ships code.
+        The right model reduces merge conflicts, speeds up reviews, and makes
+        your release process predictable.
+      </p>
+    </div>
+
+    <div class="section highlight">
+      <h2>Pick Your Model</h2>
+      <p>Match the workflow to your release cadence and team maturity. Don't over-engineer—start simple.</p>
+      <div class="model-grid">
+        <div class="model-pill">
+          <strong>Feature Branch</strong>
+          <span>any team · any cadence · low complexity</span>
+        </div>
+        <div class="model-pill">
+          <strong>GitHub Flow</strong>
+          <span>web apps · continuous delivery · low complexity</span>
+        </div>
+        <div class="model-pill">
+          <strong>Gitflow</strong>
+          <span>scheduled releases · versioned libs · high complexity</span>
+        </div>
+        <div class="model-pill">
+          <strong>Trunk-Based</strong>
+          <span>mature CI · microservices · medium complexity</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="wf-tag">Most Common</div>
+      <h2>Feature Branch</h2>
+      <p>
+        One branch per feature, cut from <code>main</code>. Work in isolation, push when ready,
+        merge after review. The safe default for any team. Works with any release cadence
+        and enforces code review without added process overhead.
+      </p>
+      <div class="code-block">
+        <pre><code>git done                           <span class="dim"># sync with latest main first</span>
+git cb feature/user-auth           <span class="dim"># create & switch</span>
+git ap && git cm "feat(auth): add OAuth flow"
+git publish                        <span class="dim"># push & track → open PR</span></code></pre>
+      </div>
+      <ul class="wf-points">
+        <li>Branch lives only as long as the feature — delete after merge</li>
+        <li><code>main</code> stays deployable at all times</li>
+        <li>PR review is built naturally into the flow</li>
+        <li>Combine with conventional commits for readable merge history</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="wf-tag">CD-Friendly</div>
+      <h2>GitHub Flow</h2>
+      <p>
+        A deployment-first variant of Feature Branch. <code>main</code> is always production-ready.
+        Branch → commit → deploy to staging → review → merge → auto-deploy.
+        Simpler than Gitflow; great for products shipping multiple times per day.
+      </p>
+      <div class="code-block">
+        <pre><code>git cb feature/dark-mode
+<span class="dim"># develop, commit, push</span>
+git publish
+<span class="dim"># → deploy branch to staging → PR review → merge → CI deploys main</span></code></pre>
+      </div>
+      <ul class="wf-points">
+        <li>No <code>develop</code> branch — <code>main</code> is the single integration point</li>
+        <li>Every PR gets a preview deploy before it touches <code>main</code></li>
+        <li>Requires a reliable CI/CD pipeline to be safe</li>
+        <li>Best for SaaS products and APIs with frequent deploys</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="wf-tag">Release-Based</div>
+      <h2>Gitflow</h2>
+      <p>
+        Two permanent branches: <code>main</code> (production) and <code>develop</code>
+        (integration). Features branch from <code>develop</code>; release branches stabilize
+        before tagging <code>main</code>; hotfixes go straight to <code>main</code> and back to
+        <code>develop</code>.
+      </p>
+      <div class="code-block">
+        <pre><code><span class="dim"># feature work — branches off develop</span>
+git cb feature/payment develop
+git cm "feat(payment): stripe integration"
+<span class="dim"># → PR to develop when done</span>
+
+<span class="dim"># prepare release</span>
+git cb release/2.1.0 develop
+<span class="dim"># bump version, final fixes → merge to main + tag + back-merge to develop</span>
+
+<span class="dim"># urgent production fix</span>
+git cb hotfix/2.0.1 main
+<span class="dim"># → merge to main + develop</span></code></pre>
+      </div>
+      <ul class="wf-points">
+        <li>Use for apps with defined release windows or versioned libraries</li>
+        <li>Supports parallel work on multiple releases simultaneously</li>
+        <li>More overhead — branches: <code>feature/*</code>, <code>release/*</code>, <code>hotfix/*</code></li>
+        <li>Not ideal for continuous delivery — adds friction on every ship</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="wf-tag">Needs Mature CI</div>
+      <h2>Trunk-Based Development</h2>
+      <p>
+        Everyone commits to <code>main</code> (trunk) frequently — ideally multiple times per day.
+        Feature branches are optional and short-lived (hours, not weeks). Incomplete work is
+        hidden behind feature flags, not long-lived branches.
+      </p>
+      <div class="code-block">
+        <pre><code><span class="dim"># short-lived branch — same-day merge target</span>
+git cb feat/quick-change
+git cm "feat: add tooltip on hover"
+git publish
+<span class="dim"># → fast review → merge same day → branch deleted</span>
+
+<span class="dim"># direct commit with feature flag guard</span>
+git cm "feat: scaffold [FF: new-checkout] skeleton"
+git ps</code></pre>
+      </div>
+      <ul class="wf-points">
+        <li>Branches live ≤ 2 days — anything longer is a code smell here</li>
+        <li>Requires fast, reliable automated tests on every commit</li>
+        <li>Feature flags manage incomplete work already in production</li>
+        <li>Reduces merge conflicts drastically on large teams</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>At a Glance</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption class="sr-only">Comparison of feature branch, GitHub Flow, Gitflow, and trunk-based development.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Criteria</th>
+              <th scope="col">Feature Branch</th>
+              <th scope="col">GitHub Flow</th>
+              <th scope="col">Gitflow</th>
+              <th scope="col">Trunk-Based</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Complexity</th>
+              <td>Low</td>
+              <td>Low</td>
+              <td>High</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <th scope="row">Release cadence</th>
+              <td>Any</td>
+              <td>Continuous</td>
+              <td>Scheduled</td>
+              <td>Continuous</td>
+            </tr>
+            <tr>
+              <th scope="row">Long-lived branches</th>
+              <td>main</td>
+              <td>main</td>
+              <td>main + develop</td>
+              <td>main only</td>
+            </tr>
+            <tr>
+              <th scope="row">Needs CI/CD</th>
+              <td>Optional</td>
+              <td>Required</td>
+              <td>Optional</td>
+              <td>Required</td>
+            </tr>
+            <tr>
+              <th scope="row">Good for</th>
+              <td>Most teams</td>
+              <td>SaaS / web</td>
+              <td>Versioned apps</td>
+              <td>Microservices</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Daily Commands</h2>
+      <p>These git-devkit aliases work with any workflow. Adapt branch names to your chosen model.</p>
+      <div class="code-block">
+        <pre><code>git done                      <span class="dim"># sync with latest main (fetch + rebase)</span>
+git cb feature/name           <span class="dim"># create & switch to branch</span>
+git s                         <span class="dim"># quick status check</span>
+git ap                        <span class="dim"># stage intentional hunks, not whole files</span>
+git ds                        <span class="dim"># review staged diff before committing</span>
+git cm "feat(scope): message" <span class="dim"># conventional commit</span>
+git lg                        <span class="dim"># inspect local history</span>
+git publish                   <span class="dim"># push & set upstream tracking</span>
+git cleanup                   <span class="dim"># delete all merged branches</span></code></pre>
+      </div>
+    </div>
+
+    <div class="section section-cta">
+      <h2>Apply It in Your Team</h2>
+      <p>
+        Start with Feature Branch if you're unsure — it's the easiest to adopt
+        and covers 90% of team needs. Layer in the others as your process matures.
+      </p>
+      <div class="cta">
+        <a routerLink="/branching" class="btn-primary">Branching Strategy →</a>
+        <a routerLink="/commits" class="btn-secondary">Commit Standards</a>
+      </div>
+    </div>
+
+  </div>
+</section>
