@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
@@ -80,7 +81,8 @@ export class SEOService {
   constructor(
     private titleService: Title,
     private metaService: Meta,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.initializeMetaTags();
     this.listenToRouteChanges();
@@ -182,18 +184,10 @@ export class SEOService {
     name: string,
     content: string
   ): void {
-    const selector = type === 'property' ? `meta[property="${name}"]` : `meta[name="${name}"]`;
-    let element = document.querySelector(selector) as HTMLMetaElement;
-
-    if (element) {
-      element.setAttribute('content', content);
-    } else {
-      this.metaService.addTag(
-        type === 'property'
-          ? { property: name, content }
-          : { name, content }
-      );
-    }
+    this.metaService.updateTag(
+      type === 'property' ? { property: name, content } : { name, content },
+      type === 'property' ? `property="${name}"` : `name="${name}"`
+    );
   }
 
   private addMetaTag(
@@ -213,15 +207,15 @@ export class SEOService {
   }
 
   private updateCanonicalLink(url: string): void {
-    let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    const link = this.document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
 
     if (link) {
       link.setAttribute('href', url);
     } else {
-      const element = document.createElement('link');
+      const element = this.document.createElement('link');
       element.setAttribute('rel', 'canonical');
       element.setAttribute('href', url);
-      document.head.appendChild(element);
+      this.document.head.appendChild(element);
     }
   }
 
