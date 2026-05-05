@@ -7,18 +7,104 @@
 
     <div class="intro-section">
       <h2>Installation Guide</h2>
-      <p>Install the complete alias set globally so every repository gets the same shortcuts.</p>
+      <p>Install the complete alias set globally on macOS, Windows, or Linux.</p>
 
-      <h3>One-line install</h3>
-      <div class="code-block">
-        <pre><code>curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup-aliases.sh | bash</code></pre>
-      </div>
+      <div class="install-options">
+        @if (isRecommended('powershell')) {
+        <article class="install-option recommended">
+          <div class="option-header">
+            <h3>Recommended - PowerShell install</h3>
+            <span class="os-badges">🪟 Windows</span>
+          </div>
+          <div class="code-block">
+            <pre><code>irm https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup-aliases.ps1 | iex</code></pre>
+          </div>
+        </article>
 
-      <h3>Manual install</h3>
-      <div class="code-block">
-        <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+        <article class="install-option">
+          <div class="option-header">
+            <h3>Option A - Shell install</h3>
+            <span class="os-badges">🍎 macOS · 🐧 Linux</span>
+          </div>
+          <div class="code-block">
+            <pre><code>curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup-aliases.sh | bash</code></pre>
+          </div>
+        </article>
+
+        <article class="install-option">
+          <div class="option-header">
+            <h3>Option B - Manual setup</h3>
+            <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
+          </div>
+          <h4>🍎 macOS / 🐧 Linux</h4>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
 cd git-multi-ssh
 bash setup-aliases.sh</code></pre>
+          </div>
+
+          <h4>🪟 Windows PowerShell</h4>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+cd git-multi-ssh
+powershell -ExecutionPolicy Bypass -File .\setup-aliases.ps1</code></pre>
+          </div>
+
+          <h4>🪟 Windows Command Prompt</h4>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+cd git-multi-ssh
+setup-aliases.bat</code></pre>
+          </div>
+        </article>
+        } @else {
+        <article class="install-option recommended">
+          <div class="option-header">
+            <h3>Recommended - Shell install</h3>
+            <span class="os-badges">🍎 macOS · 🐧 Linux</span>
+          </div>
+          <div class="code-block">
+            <pre><code>curl -fsSL https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup-aliases.sh | bash</code></pre>
+          </div>
+        </article>
+
+        <article class="install-option">
+          <div class="option-header">
+            <h3>Option A - PowerShell install</h3>
+            <span class="os-badges">🪟 Windows</span>
+          </div>
+          <div class="code-block">
+            <pre><code>irm https://raw.githubusercontent.com/sahulkola/git-multi-ssh/main/setup-aliases.ps1 | iex</code></pre>
+          </div>
+        </article>
+
+        <article class="install-option">
+          <div class="option-header">
+            <h3>Option B - Manual setup</h3>
+            <span class="os-badges">🍎 macOS · 🪟 Windows · 🐧 Linux</span>
+          </div>
+          <h4>🍎 macOS / 🐧 Linux</h4>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+cd git-multi-ssh
+bash setup-aliases.sh</code></pre>
+          </div>
+
+          <h4>🪟 Windows PowerShell</h4>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+cd git-multi-ssh
+powershell -ExecutionPolicy Bypass -File .\setup-aliases.ps1</code></pre>
+          </div>
+
+          <h4>🪟 Windows Command Prompt</h4>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/sahulkola/git-multi-ssh.git
+cd git-multi-ssh
+setup-aliases.bat</code></pre>
+          </div>
+        </article>
+        }
       </div>
 
       <h3>Verify</h3>
@@ -32,13 +118,16 @@ git lg                        <span class="dim"># graph log</span></code></pre>
     <div class="intro-section">
       <h2>Top Day-to-Day Shortcuts</h2>
       <p>These are the most-used aliases for typical development flow.</p>
+      <button class="reset-toggle" type="button" (click)="toggleResetAliases()">
+        {{ showResetAliases() ? 'Hide reset-based aliases' : 'Show reset-based aliases' }}
+      </button>
       <div class="aliases-table">
         <div class="table-header">
           <span>Alias</span>
           <span>Expands To</span>
           <span>Description</span>
         </div>
-        @for (alias of topShortcuts(); track alias.command) {
+        @for (alias of visibleTopShortcuts(); track alias.command) {
         <div class="table-row">
           <code class="alias-cmd">{{ alias.command }}</code>
           <code class="alias-expansion">{{ alias.expansion }}</code>
@@ -53,10 +142,10 @@ git lg                        <span class="dim"># graph log</span></code></pre>
       <p>Complete list of all aliases grouped by category.</p>
     </div>
 
-    @for (category of categories(); track category.name) {
+    @for (category of visibleCategories(); track category.name) {
     <div class="category">
       <h2>
-        <span class="category-icon">{{ category.icon }}</span>
+        <span class="category-icon">{{ categoryIcon(category.name) }}</span>
         {{ category.name }}
       </h2>
       <div class="aliases-table">
