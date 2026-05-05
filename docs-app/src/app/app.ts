@@ -1,4 +1,4 @@
-import { Component, DestroyRef, signal } from '@angular/core';
+import { Component, DestroyRef, effect, signal } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Header } from './layout/header';
@@ -24,6 +24,11 @@ export class App {
   ) {
     // SEO service is initialized and manages meta tags
     this.initializeRouteLoader();
+
+    // Lock body scroll while the loader is visible
+    effect(() => {
+      document.body.style.overflow = this.isRouteLoading() ? 'hidden' : '';
+    });
     this.destroyRef.onDestroy(() => {
       if (this.hideLoaderTimeout) {
         clearTimeout(this.hideLoaderTimeout);
