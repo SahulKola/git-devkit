@@ -1,0 +1,50 @@
+{
+  "name": "git-devkit - Master Git Like a Pro",
+  "short_name": "git-devkit",
+  "description": "Master Git Like a Pro with complete toolkit. 60+ aliases, multi-SSH setup, conventional commits, and workflows.",
+  "start_url": "/git-devkit/",
+  "scope": "/git-devkit/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#FF6600",
+  "background_color": "#0a0a0a",
+  "screenshots": [
+    {
+      "src": "og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "screenshots": [
+    {
+      "src": "og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "share_target": {
+    "action": "/git-devkit/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

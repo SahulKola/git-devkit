@@ -48,12 +48,90 @@
     color: var(--text-secondary);
   }
 
+  h4 {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.45rem;
+    color: var(--text-muted);
+  }
+
   p {
     color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 0.5rem;
   }
+}
+
+.os-recommendation {
+  margin: 1rem 0 1.3rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(59, 130, 246, 0.08));
+  border-radius: 10px;
+
+  .os-recommendation-title {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.install-options {
+  display: grid;
+  gap: 1rem;
+}
+
+.install-option {
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(148, 163, 184, 0.04));
+  border-radius: 12px;
+  padding: 1rem;
+
+  p {
+    margin-bottom: 0.4rem;
+  }
+
+  &.recommended {
+    border-color: rgba(59, 130, 246, 0.55);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2), 0 14px 30px rgba(2, 6, 23, 0.18);
+
+    .option-header h3::after {
+      content: 'Recommended';
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-left: 0.45rem;
+      padding: 0.22rem 0.4rem;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      vertical-align: middle;
+    }
+  }
+}
+
+.option-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+
+  h3 {
+    margin-top: 0;
+    color: var(--text);
+  }
+}
+
+.os-badges {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .code-block {
@@ -131,5 +209,12 @@
 
   &:hover {
     color: var(--text-secondary);
+  }
+}
+
+@media (max-width: 768px) {
+  .option-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

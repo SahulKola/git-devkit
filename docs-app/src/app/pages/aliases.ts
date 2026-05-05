@@ -1,4 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+
+type DetectedOs = 'macos' | 'windows' | 'linux' | 'unknown';
 
 interface GitAlias {
   command: string;
@@ -8,7 +10,6 @@ interface GitAlias {
 
 interface AliasCategory {
   name: string;
-  icon: string;
   aliases: GitAlias[];
 }
 
@@ -19,6 +20,43 @@ interface AliasCategory {
   styleUrl: './aliases.scss',
 })
 export class Aliases {
+  protected readonly detectedOs = signal<DetectedOs>(this.detectOs());
+  protected readonly showResetAliases = signal(false);
+
+  protected readonly osSummary = computed(() => {
+    const currentOs = this.detectedOs();
+
+    if (currentOs === 'windows') {
+      return {
+        label: 'Windows',
+        recommendedOption: 'Option B',
+        recommendationReason: 'Use PowerShell for the smoothest first-time setup on Windows.',
+      };
+    }
+
+    if (currentOs === 'macos') {
+      return {
+        label: 'macOS',
+        recommendedOption: 'Option A',
+        recommendationReason: 'The one-line shell installer is the fastest path on macOS.',
+      };
+    }
+
+    if (currentOs === 'linux') {
+      return {
+        label: 'Linux',
+        recommendedOption: 'Option A',
+        recommendationReason: 'The shell installer works best for most Linux environments.',
+      };
+    }
+
+    return {
+      label: 'Unknown OS',
+      recommendedOption: 'Option A',
+      recommendationReason: 'The shell install command is the standard fallback across Unix-like shells.',
+    };
+  });
+
   protected readonly topShortcuts = signal<GitAlias[]>([
     { command: 'git s', expansion: 'status --short --branch', description: 'Fast status with current branch context' },
     { command: 'git ap', expansion: 'add --patch', description: 'Stage only the exact hunks you want' },
@@ -35,7 +73,6 @@ export class Aliases {
   protected readonly categories = signal<AliasCategory[]>([
     {
       name: 'Shorthand',
-      icon: '⚡',
       aliases: [
         { command: 'git s', expansion: 'status --short --branch', description: 'Short status with branch info' },
         { command: 'git st', expansion: 'status', description: 'Full status' },
@@ -60,7 +97,6 @@ export class Aliases {
     },
     {
       name: 'Log & History',
-      icon: '📜',
       aliases: [
         { command: 'git lg', expansion: 'log --graph --pretty=...', description: 'Beautiful colored graph log' },
         { command: 'git ll', expansion: 'log --oneline --decorate --all --graph', description: 'All branches one-line graph' },
@@ -72,7 +108,6 @@ export class Aliases {
     },
     {
       name: 'Undo & Fix',
-      icon: '↩️',
       aliases: [
         { command: 'git undo', expansion: 'reset --soft HEAD~1', description: 'Undo last commit, keep changes staged' },
         { command: 'git unstage', expansion: 'reset HEAD --', description: 'Unstage files' },
@@ -83,7 +118,6 @@ export class Aliases {
     },
     {
       name: 'Branch Management',
-      icon: '🌿',
       aliases: [
         { command: 'git bra', expansion: 'branch -a', description: 'List all branches (local + remote)' },
         { command: 'git brd', expansion: 'branch -d', description: 'Delete branch (safe)' },
@@ -96,7 +130,6 @@ export class Aliases {
     },
     {
       name: 'Stash',
-      icon: '📦',
       aliases: [
         { command: 'git ss', expansion: 'stash save', description: 'Stash with a message' },
         { command: 'git sp', expansion: 'stash pop', description: 'Pop latest stash' },
@@ -107,7 +140,6 @@ export class Aliases {
     },
     {
       name: 'Remotes',
-      icon: '🌐',
       aliases: [
         { command: 'git rv', expansion: 'remote -v', description: 'List remotes with URLs' },
         { command: 'git sync', expansion: 'fetch --all --prune && pull', description: 'Sync with all remotes' },
@@ -117,7 +149,6 @@ export class Aliases {
     },
     {
       name: 'Workflow',
-      icon: '🔄',
       aliases: [
         { command: 'git wip', expansion: 'add -A && commit -m "WIP"', description: 'Quick work-in-progress commit' },
         { command: 'git save', expansion: 'add -A && commit -m "SAVEPOINT"', description: 'Save all changes as checkpoint' },
@@ -128,7 +159,6 @@ export class Aliases {
     },
     {
       name: 'Information',
-      icon: 'ℹ️',
       aliases: [
         { command: 'git aliases', expansion: 'config --get-regexp ^alias\\.', description: 'List all configured aliases' },
         { command: 'git whoami', expansion: 'config user.name && user.email', description: 'Show current git identity' },
@@ -140,7 +170,6 @@ export class Aliases {
     },
     {
       name: 'File Operations',
-      icon: '📁',
       aliases: [
         { command: 'git find', expansion: 'ls-files | grep -i', description: 'Find file in repo by name' },
         { command: 'git ignored', expansion: 'ls-files --others --ignored --exclude-standard', description: 'List ignored files' },
@@ -149,7 +178,6 @@ export class Aliases {
     },
     {
       name: 'Diff & Merge',
-      icon: '🔀',
       aliases: [
         { command: 'git conflicts', expansion: 'diff --name-only --diff-filter=U', description: 'List conflicted files' },
         { command: 'git ours', expansion: 'checkout --ours --', description: 'Resolve conflict with our version' },
@@ -159,7 +187,6 @@ export class Aliases {
     },
     {
       name: 'Rebase & Advanced',
-      icon: '🛠️',
       aliases: [
         { command: 'git ri', expansion: 'rebase --interactive', description: 'Interactive rebase' },
         { command: 'git rc', expansion: 'rebase --continue', description: 'Continue rebase after resolving' },
@@ -169,4 +196,93 @@ export class Aliases {
       ],
     },
   ]);
+
+  protected readonly visibleTopShortcuts = computed(() =>
+    this.topShortcuts().filter((alias) => !this.shouldHideResetAlias(alias)),
+  );
+
+  protected readonly visibleCategories = computed(() =>
+    this.categories()
+      .map((category) => ({
+        ...category,
+        aliases: category.aliases.filter((alias) => !this.shouldHideResetAlias(alias)),
+      }))
+      .filter((category) => category.aliases.length > 0),
+  );
+
+  protected toggleResetAliases(): void {
+    this.showResetAliases.update((value) => !value);
+  }
+
+  protected isRecommended(option: 'shell' | 'powershell' | 'manual'): boolean {
+    const currentOs = this.detectedOs();
+
+    if (option === 'shell') {
+      return currentOs === 'macos' || currentOs === 'linux' || currentOs === 'unknown';
+    }
+
+    if (option === 'powershell') {
+      return currentOs === 'windows';
+    }
+
+    return false;
+  }
+
+  protected categoryIcon(name: string): string {
+    const icons: Record<string, string> = {
+      'Shorthand': '⚡',
+      'Log & History': '📜',
+      'Undo & Fix': '↩️',
+      'Branch Management': '🌿',
+      'Stash': '📦',
+      'Remotes': '🌐',
+      'Workflow': '🔄',
+      'Information': 'ℹ️',
+      'File Operations': '📁',
+      'Diff & Merge': '🔀',
+      'Rebase & Advanced': '🛠️',
+    };
+
+    return icons[name] || '•';
+  }
+
+  private shouldHideResetAlias(alias: GitAlias): boolean {
+    if (this.showResetAliases()) {
+      return false;
+    }
+
+    return this.containsResetKeyword(alias.command) || this.containsResetKeyword(alias.expansion);
+  }
+
+  private containsResetKeyword(value: string): boolean {
+    return /\breset\b/.test(value.toLowerCase());
+  }
+
+  private detectOs(): DetectedOs {
+    if (typeof navigator === 'undefined') {
+      return 'unknown';
+    }
+
+    const navigatorWithUaData = navigator as Navigator & { userAgentData?: { platform?: string } };
+    const userAgentPlatform = (
+      navigatorWithUaData.userAgentData?.platform ||
+      navigator.platform ||
+      navigator.userAgent ||
+      ''
+    ).toLowerCase();
+
+    if (userAgentPlatform.includes('mac')) {
+      return 'macos';
+    }
+
+    if (userAgentPlatform.includes('win')) {
+      return 'windows';
+    }
+
+    if (userAgentPlatform.includes('linux') || userAgentPlatform.includes('x11')) {
+      return 'linux';
+    }
+
+    return 'unknown';
+  }
 }

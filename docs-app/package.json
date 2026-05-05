@@ -4,11 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "generate:og": "node ../scripts/generate-og-images.js",
+    "build": "npm run generate:og && ng build",
+    "build:prod": "npm run generate:og && ng build --configuration production",
+    "build:ghpages": "npm run generate:og && ng build --configuration production --base-href /git-devkit/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:coverage": "ng test --watch=false --coverage",
-    "build:ghpages": "ng build --configuration production --base-href /git-devkit/",
     "serve:ssr:docs-app": "node dist/docs-app/server/server.mjs"
   },
   "private": true,
@@ -36,6 +38,7 @@
     "jsdom": "^29.1.1",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.5",
+    "sharp": "^0.33.0"
   }
 }
