@@ -13,21 +13,9 @@ import { SEOService } from './core/seo.service';
 })
 export class App {
   readonly isRouteLoading = signal(false);
-  readonly routeLoaderLine = signal('Rebasing the route...');
-  private readonly minLoaderDurationMs = 900;
-  private readonly loaderLines = [
-    'Rebasing the route...',
-    'Staging fresh content...',
-    'Fast-forwarding your view...',
-    'Resolving tiny UI deltas...',
-    'Pushing pixels to HEAD...',
-    'Cherry-picking this screen...',
-  ];
-  private readonly loaderLineIntervalMs = 700;
+  private readonly minLoaderDurationMs = 2200;
   private loaderShownAt = 0;
-  private lastLoaderLineIndex = -1;
   private hideLoaderTimeout: ReturnType<typeof setTimeout> | undefined;
-  private loaderLineInterval: ReturnType<typeof setInterval> | undefined;
 
   constructor(
     private seoService: SEOService,
@@ -40,9 +28,6 @@ export class App {
       if (this.hideLoaderTimeout) {
         clearTimeout(this.hideLoaderTimeout);
       }
-      if (this.loaderLineInterval) {
-        clearInterval(this.loaderLineInterval);
-      }
     });
   }
 
@@ -52,8 +37,6 @@ export class App {
         if (this.hideLoaderTimeout) {
           clearTimeout(this.hideLoaderTimeout);
         }
-        this.setNextLoaderLine();
-        this.startLoaderLineRotation();
         this.loaderShownAt = Date.now();
         this.isRouteLoading.set(true);
         return;
@@ -69,44 +52,9 @@ export class App {
 
         // Keep loader visible for at least one full animation cycle.
         this.hideLoaderTimeout = setTimeout(() => {
-          this.stopLoaderLineRotation();
           this.isRouteLoading.set(false);
         }, remaining);
       }
     });
-  }
-
-  private startLoaderLineRotation(): void {
-    if (this.loaderLineInterval) {
-      clearInterval(this.loaderLineInterval);
-    }
-
-    this.loaderLineInterval = setInterval(() => {
-      this.setNextLoaderLine();
-    }, this.loaderLineIntervalMs);
-  }
-
-  private stopLoaderLineRotation(): void {
-    if (this.loaderLineInterval) {
-      clearInterval(this.loaderLineInterval);
-      this.loaderLineInterval = undefined;
-    }
-  }
-
-  private setNextLoaderLine(): void {
-    if (this.loaderLines.length === 0) {
-      return;
-    }
-
-    let nextIndex = this.lastLoaderLineIndex;
-    while (nextIndex === this.lastLoaderLineIndex) {
-      nextIndex = Math.floor(Math.random() * this.loaderLines.length);
-      if (this.loaderLines.length === 1) {
-        break;
-      }
-    }
-
-    this.lastLoaderLineIndex = nextIndex;
-    this.routeLoaderLine.set(this.loaderLines[nextIndex]);
   }
 }
