@@ -8,108 +8,86 @@
   position: fixed;
   inset: 0;
   z-index: 95;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--bg) 93%, transparent);
   backdrop-filter: blur(1px);
   pointer-events: none;
 }
 
 .git-loader {
-  width: 11.5rem;
-  max-width: min(78vw, 11.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.72rem;
+  width: min(82vw, 12rem);
 }
 
-.git-graph {
+.dag-loader {
   position: relative;
   width: 100%;
-  height: 2.35rem;
+  aspect-ratio: 2 / 1;
 }
 
-.git-path {
+.dag-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.dag-edge {
+  stroke: color-mix(in srgb, var(--text-muted) 52%, transparent);
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: dagEdgePulse 2.2s ease-in-out infinite;
+}
+
+.dag-node {
+  fill: color-mix(in srgb, var(--text-muted) 82%, transparent);
+}
+
+.dag-node--feature {
+  fill: color-mix(in srgb, var(--text-muted) 65%, var(--git-orange));
+}
+
+.dag-node--merge {
+  fill: color-mix(in srgb, var(--git-orange) 58%, var(--text-muted));
+}
+
+.dag-node--head {
+  fill: color-mix(in srgb, var(--git-orange) 72%, var(--text-muted));
+}
+
+.dag-activity-dot {
   position: absolute;
-  border-top: 2px solid color-mix(in srgb, var(--text-muted) 46%, transparent);
-}
-
-.git-path--main {
-  left: 0.6rem;
-  right: 0.75rem;
-  top: 1.35rem;
-}
-
-.git-path--branch {
-  width: 2.8rem;
-  left: 4.2rem;
-  top: 0.88rem;
-  transform: rotate(-30deg);
-  transform-origin: left center;
-}
-
-.git-node {
-  position: absolute;
-  width: 0.52rem;
-  height: 0.52rem;
-  border-radius: 999px;
-  top: 1.09rem;
-  background: color-mix(in srgb, var(--text-muted) 82%, transparent);
-}
-
-.git-node--one {
-  left: 0.85rem;
-}
-
-.git-node--two {
-  left: 4.2rem;
-}
-
-.git-node--three {
-  left: 8.9rem;
-}
-
-.git-node--branch {
-  left: 6.48rem;
-  top: 0.46rem;
-}
-
-.git-head {
-  position: absolute;
-  top: 0.02rem;
-  left: 8.35rem;
-  padding: 0.1rem 0.35rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--text-muted) 44%, transparent);
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--text-secondary);
-  background: color-mix(in srgb, var(--bg) 90%, transparent);
-}
-
-.git-head-dot {
-  position: absolute;
-  left: 0.85rem;
-  top: 1.09rem;
-  width: 0.52rem;
-  height: 0.52rem;
+  left: 13.333%;
+  top: 62.222%;
+  width: 0.56rem;
+  height: 0.56rem;
   border-radius: 999px;
   background: var(--git-orange);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--git-orange) 18%, transparent);
-  animation: loaderHeadTraverse 0.9s ease-in-out infinite;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--git-orange) 22%, transparent);
+  transform: translate(-50%, -50%);
+  animation: dagTraverse 2.2s linear infinite;
 }
 
-.route-loader-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+.branch-tag {
+  position: absolute;
+  padding: 0.1rem 0.34rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 50%, transparent);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   color: var(--text-secondary);
-  animation: loaderTextBlink 0.9s ease-in-out infinite;
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+}
+
+.branch-tag--feature {
+  left: 5.55rem;
+  top: 0.56rem;
+}
+
+.branch-tag--head {
+  right: 0.2rem;
+  top: 1.78rem;
 }
 
 main {
@@ -117,56 +95,66 @@ main {
   position: relative;
 }
 
-@keyframes loaderHeadTraverse {
-  0% {
-    left: 0.85rem;
-    top: 1.09rem;
-    transform: scale(0.92);
-  }
-
-  45% {
-    left: 6.48rem;
-    top: 0.46rem;
-    transform: scale(1);
-  }
-
-  55% {
-    left: 6.48rem;
-    top: 0.46rem;
-    transform: scale(1);
-  }
-
-  100% {
-    left: 8.9rem;
-    top: 1.09rem;
-    transform: scale(0.92);
-  }
-}
-
-@keyframes loaderTextBlink {
+@keyframes dagEdgePulse {
   0%,
   100% {
-    opacity: 0.45;
+    opacity: 0.48;
   }
 
   50% {
-    opacity: 0.9;
+    opacity: 0.84;
+  }
+}
+
+@keyframes dagTraverse {
+  0%,
+  12% {
+    left: 13.333%;
+    top: 62.222%;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  28%,
+  40% {
+    left: 48.889%;
+    top: 62.222%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  56%,
+  68% {
+    left: 62.222%;
+    top: 35.556%;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+
+  80%,
+  90% {
+    left: 71.111%;
+    top: 62.222%;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  96%,
+  100% {
+    left: 91.111%;
+    top: 62.222%;
+    transform: translate(-50%, -50%) scale(1.08);
   }
 }
 
 @media (max-width: 640px) {
   .git-loader {
-    transform: scale(0.92);
-  }
-
-  .route-loader-text {
-    font-size: 0.63rem;
+    width: min(88vw, 12rem);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .git-head-dot,
-  .route-loader-text {
-    animation: none;
+  .dag-edge {
+    animation-duration: 4s;
+  }
+
+  .dag-activity-dot {
+    animation-duration: 4s;
   }
 }
