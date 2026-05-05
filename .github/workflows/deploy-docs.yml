@@ -60,26 +60,33 @@ jobs:
         with:
           node-version: "22"
           cache: "pnpm"
-          cache-dependency-path: docs-app/pnpm-lock.yaml
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            docs-app/pnpm-lock.yaml
 
-      # ── 5. Install dependencies ───────────────────────────────────────
-      - name: Install dependencies
+      # ── 5. Install root dependencies (used by scripts/generate-og-images.js) ──
+      - name: Install root dependencies
+        if: steps.gate.outputs.deploy == 'true'
+        run: pnpm install --frozen-lockfile
+
+      # ── 6. Install docs-app dependencies ──────────────────────────────
+      - name: Install docs-app dependencies
         if: steps.gate.outputs.deploy == 'true'
         working-directory: docs-app
         run: pnpm install --frozen-lockfile
 
-      # ── 6. Build for GitHub Pages ─────────────────────────────────────
+      # ── 7. Build for GitHub Pages ─────────────────────────────────────
       - name: Build docs-app
         if: steps.gate.outputs.deploy == 'true'
         working-directory: docs-app
         run: pnpm run build:ghpages
 
-      # ── 7. Configure GitHub Pages ─────────────────────────────────────
+      # ── 8. Configure GitHub Pages ─────────────────────────────────────
       - name: Setup Pages
         if: steps.gate.outputs.deploy == 'true'
         uses: actions/configure-pages@v5
 
-      # ── 8. Upload the static build artifact ──────────────────────────
+      # ── 9. Upload the static build artifact ──────────────────────────
       - name: Upload artifact
         if: steps.gate.outputs.deploy == 'true'
         uses: actions/upload-pages-artifact@v3
@@ -87,7 +94,7 @@ jobs:
           # Angular 17+ application builder outputs static files here
           path: docs-app/dist/docs-app/browser
 
-      # ── 9. Deploy to GitHub Pages ─────────────────────────────────────
+      # ── 10. Deploy to GitHub Pages ─────────────────────────────────────
       - name: Deploy to GitHub Pages
         if: steps.gate.outputs.deploy == 'true'
         id: deployment
