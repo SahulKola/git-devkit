@@ -4,7 +4,169 @@
   min-height: 100vh;
 }
 
+.route-loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+}
+
+.git-loader {
+  width: 11.5rem;
+  max-width: min(78vw, 11.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.72rem;
+}
+
+.git-graph {
+  position: relative;
+  width: 100%;
+  height: 2.35rem;
+}
+
+.git-path {
+  position: absolute;
+  border-top: 2px solid color-mix(in srgb, var(--text-muted) 46%, transparent);
+}
+
+.git-path--main {
+  left: 0.6rem;
+  right: 0.75rem;
+  top: 1.35rem;
+}
+
+.git-path--branch {
+  width: 2.8rem;
+  left: 4.2rem;
+  top: 0.88rem;
+  transform: rotate(-30deg);
+  transform-origin: left center;
+}
+
+.git-node {
+  position: absolute;
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 999px;
+  top: 1.09rem;
+  background: color-mix(in srgb, var(--text-muted) 82%, transparent);
+}
+
+.git-node--one {
+  left: 0.85rem;
+}
+
+.git-node--two {
+  left: 4.2rem;
+}
+
+.git-node--three {
+  left: 8.9rem;
+}
+
+.git-node--branch {
+  left: 6.48rem;
+  top: 0.46rem;
+}
+
+.git-head {
+  position: absolute;
+  top: 0.02rem;
+  left: 8.35rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 44%, transparent);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+
+.git-head-dot {
+  position: absolute;
+  left: 0.85rem;
+  top: 1.09rem;
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 999px;
+  background: var(--git-orange);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--git-orange) 18%, transparent);
+  animation: loaderHeadTraverse 0.9s ease-in-out infinite;
+}
+
+.route-loader-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  animation: loaderTextBlink 0.9s ease-in-out infinite;
+}
+
 main {
   flex: 1;
   position: relative;
+}
+
+@keyframes loaderHeadTraverse {
+  0% {
+    left: 0.85rem;
+    top: 1.09rem;
+    transform: scale(0.92);
+  }
+
+  45% {
+    left: 6.48rem;
+    top: 0.46rem;
+    transform: scale(1);
+  }
+
+  55% {
+    left: 6.48rem;
+    top: 0.46rem;
+    transform: scale(1);
+  }
+
+  100% {
+    left: 8.9rem;
+    top: 1.09rem;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes loaderTextBlink {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 640px) {
+  .git-loader {
+    transform: scale(0.92);
+  }
+
+  .route-loader-text {
+    font-size: 0.63rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .git-head-dot,
+  .route-loader-text {
+    animation: none;
+  }
 }
