@@ -1,0 +1,5 @@
+/node_modules
+/dist
+/docs-app/node_modules
+/docs-app/dist
+/docs-app/.angular

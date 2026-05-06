@@ -1,0 +1,101 @@
+name: Deploy Docs to GitHub Pages
+
+# Triggers only when the commit message contains [deploy]
+on:
+  push:
+    branches:
+      - main
+    # Filter runs to commits whose message contains [deploy]
+    # GitHub does not support commit-message filters natively, so we
+    # check inside the job and skip early when the phrase is absent.
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one deployment at a time; queue newer runs.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # ── 1. Gate: only continue when [deploy] is in the commit message ──
+      - name: Check commit message for [deploy]
+        id: gate
+        run: |
+          MSG="${{ github.event.head_commit.message }}"
+          echo "Commit message: $MSG"
+          if [[ "$MSG" == *"[deploy]"* ]]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping deployment — commit message does not contain [deploy]"
+          fi
+
+      # ── 2. Checkout source ────────────────────────────────────────────
+      - name: Checkout
+        if: steps.gate.outputs.deploy == 'true'
+        uses: actions/checkout@v4
+
+      # ── 3. Set up pnpm ───────────────────────────────────────────────
+      - name: Setup pnpm
+        if: steps.gate.outputs.deploy == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      # ── 4. Set up Node.js ────────────────────────────────────────────
+      - name: Setup Node.js
+        if: steps.gate.outputs.deploy == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            docs-app/pnpm-lock.yaml
+
+      # ── 5. Install root dependencies (used by scripts/generate-og-images.js) ──
+      - name: Install root dependencies
+        if: steps.gate.outputs.deploy == 'true'
+        run: pnpm install --frozen-lockfile
+
+      # ── 6. Install docs-app dependencies ──────────────────────────────
+      - name: Install docs-app dependencies
+        if: steps.gate.outputs.deploy == 'true'
+        working-directory: docs-app
+        run: pnpm install --frozen-lockfile
+
+      # ── 7. Build for GitHub Pages ─────────────────────────────────────
+      - name: Build docs-app
+        if: steps.gate.outputs.deploy == 'true'
+        working-directory: docs-app
+        run: pnpm run build:ghpages
+
+      # ── 8. Configure GitHub Pages ─────────────────────────────────────
+      - name: Setup Pages
+        if: steps.gate.outputs.deploy == 'true'
+        uses: actions/configure-pages@v5
+
+      # ── 9. Upload the static build artifact ──────────────────────────
+      - name: Upload artifact
+        if: steps.gate.outputs.deploy == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Angular 17+ application builder outputs static files here
+          path: docs-app/dist/docs-app/browser
+
+      # ── 10. Deploy to GitHub Pages ─────────────────────────────────────
+      - name: Deploy to GitHub Pages
+        if: steps.gate.outputs.deploy == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
