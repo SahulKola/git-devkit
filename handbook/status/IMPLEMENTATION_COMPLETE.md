@@ -44,7 +44,7 @@ We've implemented this comprehensively across the entire project.
 **Use "git-devkit" for:**
 - Project name
 - Root folder reference
-- npm package
+- GitHub repository
 - GitHub repository
 - Installation: "Install git-devkit"
 - Root path: "git-devkit/bin/index.js"

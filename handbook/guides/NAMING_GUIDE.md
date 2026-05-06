@@ -7,7 +7,6 @@
 | **Project/Toolkit** | git-devkit | "Clone git-devkit", "Contribute to git-devkit" |
 | **CLI Tool** | git-multi-ssh | "Run git-multi-ssh", "The git-multi-ssh tool" |
 | **Root Folder** | git-devkit | "In the git-devkit folder" |
-| **npm Package** | git-devkit | "npm install git-devkit" |
 | **Repository** | git-devkit | "github.com/.../git-devkit" |
 
 ---
@@ -76,7 +75,7 @@
 | "Clone git-multi-ssh repo" | Repo is git-devkit | "Clone git-devkit repo" |
 | "cd git-multi-ssh" | Folder is git-devkit | "cd git-devkit" |
 | "The git-devkit tool provides..." | That's git-multi-ssh! | "The git-multi-ssh tool provides..." |
-| "Install git-multi-ssh" | Package is git-devkit | "Install git-devkit" |
+| "Install git-multi-ssh" | Package is git-devkit | "Clone git-devkit" |
 | "Run git-devkit" | Command is git-multi-ssh | "Run git-multi-ssh" |
 | "git-devkit/bin/git-multi-ssh.js" | Correct: git-devkit/bin/index.js | "git-devkit/bin/index.js" |
 
@@ -286,7 +285,6 @@ developers manage multiple Git SSH identities..."
 |-----------|-----|---------|
 | Root folder reference | git-devkit | "In git-devkit root" |
 | Clone command | git-devkit | "git clone ... git-devkit" |
-| npm package | git-devkit | "npm install git-devkit" |
 | Setup process | git-devkit | "npm run setup in git-devkit" |
 | CLI command | git-multi-ssh | "Run git-multi-ssh" |
 | Tool features | git-multi-ssh | "git-multi-ssh manages SSH keys" |

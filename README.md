@@ -44,7 +44,7 @@ The repository now includes major improvements:
 
 ## Install
 
-### Option 1: Clone + Setup (recommended)
+### Clone and run setup (recommended)
 
 ```bash
 git clone https://github.com/sahulkola/git-devkit.git
@@ -53,7 +53,7 @@ npm install
 npm run setup
 ```
 
-### Option 2: Local developer flow
+### For contributors and local development
 
 ```bash
 git clone https://github.com/sahulkola/git-devkit.git

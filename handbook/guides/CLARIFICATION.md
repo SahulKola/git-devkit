@@ -15,7 +15,6 @@ We've implemented this across the entire project.
 ### **git-devkit** = The Project
 - ✅ The root folder
 - ✅ The entire toolkit
-- ✅ The npm package name
 - ✅ The GitHub repository
 - ✅ All documentation scope
 - ✅ Contributions are to git-devkit
@@ -182,7 +181,7 @@ $ git-multi-ssh
 ## File Structure Visualization
 
 ```
-git-devkit/                        ← The Project (npm package)
+git-devkit/                        ← The Project (GitHub repository)
 │
 ├── bin/
 │   └── index.js                  ← Entry point for git-multi-ssh
