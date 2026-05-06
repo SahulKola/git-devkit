@@ -3,8 +3,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
-// GA4 gtag() is loaded by the inline script in index.html.
-declare function gtag(...args: unknown[]): void;
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
@@ -42,7 +45,7 @@ export class AnalyticsService {
   /** Send a page_view hit — called automatically on every route change. */
   pageView(path: string): void {
     if (!this.isReady()) return;
-    gtag('event', 'page_view', {
+    window.gtag?.('event', 'page_view', {
       page_path: path,
       page_location: window.location.href,
       page_title: document.title,
@@ -56,10 +59,10 @@ export class AnalyticsService {
    */
   event(name: string, params?: Record<string, unknown>): void {
     if (!this.isReady()) return;
-    gtag('event', name, { ...params, send_to: this.measurementId });
+    window.gtag?.('event', name, { ...params, send_to: this.measurementId });
   }
 
   private isReady(): boolean {
-    return isPlatformBrowser(this.platformId) && typeof gtag !== 'undefined';
+    return isPlatformBrowser(this.platformId) && typeof window.gtag === 'function';
   }
 }
