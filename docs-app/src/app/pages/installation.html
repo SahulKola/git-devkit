@@ -3,6 +3,7 @@
     <div class="page-header">
       <h1>git-multi-ssh</h1>
       <p>Set up identity-safe Git workflows for multi-account development.</p>
+      <a routerLink="/multi-ssh-use-cases" class="top-cta">Read the Complete Daily Workflow Guide →</a>
     </div>
 
     <div class="section">
@@ -92,10 +93,40 @@ npm link</code></pre>
     </div>
 
     <div class="section">
+      <h2>Quick Daily Guide</h2>
+      <p>Short day-to-day workflow with the key multi-SSH features you will use most often.</p>
+
+      <h3>Key features used daily</h3>
+      <ul class="value-list">
+        <li>Account-based SSH host aliases (personal, work, client)</li>
+        <li>No repeated remote URL rewrites while switching repositories</li>
+        <li>Safer push/pull with identity mapped by host alias</li>
+      </ul>
+
+      <h3>Quick start commands</h3>
+      <div class="code-block">
+        <pre><code># Clone with alias hosts (example)
+git clone git@github-personal:username/my-tooling.git
+git clone git@github-work:my-org/platform-api.git
+
+# Verify once
+git remote -v
+
+# Work normally
+git checkout -b feat/add-healthcheck
+git push -u origin feat/add-healthcheck</code></pre>
+      </div>
+
+      <a routerLink="/multi-ssh-use-cases" class="inline-link">See more daily examples →</a>
+    </div>
+
+    <div class="section">
       <h2>Scenarios and Mitigations</h2>
       <p>
         See practical situations that happen without multi-SSH setup and how this library mitigates each one.
       </p>
+      <a routerLink="/multi-ssh-use-cases" class="inline-link">How to use Multi-SSH in daily workflow →</a>
+      <br />
       <a routerLink="/stories" fragment="multi-ssh-scenarios" class="inline-link">View all scenarios and mitigations
         →</a>
     </div>

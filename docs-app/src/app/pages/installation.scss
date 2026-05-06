@@ -22,6 +22,25 @@
     color: var(--text-secondary);
     font-size: 0.95rem;
   }
+
+  .top-cta {
+    display: inline-block;
+    margin-top: 0.85rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--bg-subtle) 80%, transparent);
+    color: var(--text);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-1px);
+    }
+  }
 }
 
 .section {

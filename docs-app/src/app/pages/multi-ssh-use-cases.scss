@@ -1,0 +1,142 @@
+.use-cases-page {
+  padding: 3rem 0 4rem;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-header {
+  margin-bottom: 2.5rem;
+
+  .eyebrow {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    line-height: 1.7;
+    max-width: 780px;
+  }
+}
+
+.section {
+  margin-bottom: 2rem;
+  padding: 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg) 85%, var(--bg-subtle));
+
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 0.7rem;
+    line-height: 1.7;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.15rem;
+  }
+
+  li {
+    margin-bottom: 0.4rem;
+    color: var(--text-secondary);
+  }
+}
+
+.highlight {
+  background: color-mix(in srgb, var(--bg-subtle) 80%, transparent);
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+
+  article {
+    border: 1px solid var(--border-muted);
+    border-radius: 8px;
+    padding: 0.9rem;
+    background: var(--bg);
+  }
+}
+
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+
+  pre {
+    margin: 0;
+    padding: 0.95rem 1.15rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  code {
+    color: var(--code-text);
+    font-size: 0.83rem;
+    line-height: 1.65;
+  }
+}
+
+.tips {
+  border-style: dashed;
+}
+
+.cta {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.58rem 1.15rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn-secondary {
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 720px) {
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+}
