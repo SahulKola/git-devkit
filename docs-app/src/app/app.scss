@@ -36,7 +36,7 @@
   stroke-width: 2.1;
   stroke-linecap: round;
   stroke-linejoin: round;
-  animation: dagEdgePulse 2.2s ease-in-out infinite;
+  animation: dagEdgePulse 1s ease-in-out infinite;
 }
 
 .dag-node {
@@ -65,7 +65,7 @@
   background: var(--git-orange);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--git-orange) 22%, transparent);
   transform: translate(-50%, -50%);
-  animation: dagTraverse 2.2s linear infinite;
+  animation: dagTraverse 1s linear infinite;
 }
 
 .branch-tag {

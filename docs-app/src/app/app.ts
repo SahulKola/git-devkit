@@ -13,7 +13,7 @@ import { SEOService } from './core/seo.service';
 })
 export class App {
   readonly isRouteLoading = signal(false);
-  private readonly minLoaderDurationMs = 2200;
+  private readonly minLoaderDurationMs = 1000;
   private loaderShownAt = 0;
   private hideLoaderTimeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -27,6 +27,9 @@ export class App {
 
     // Lock body scroll while the loader is visible
     effect(() => {
+      if (typeof document === 'undefined') {
+        return;
+      }
       document.body.style.overflow = this.isRouteLoading() ? 'hidden' : '';
     });
     this.destroyRef.onDestroy(() => {
