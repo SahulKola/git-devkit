@@ -1,5 +1,10 @@
 # Complete Change Log
 
+## [1.1.0] - 2026-05-06
+
+Add G4A analytics to understand more on user traffic
+
+
 ## [1.0.1] - 2026-05-06
 
 1. add overlay blur while loading animation 2. improve git loader animation
