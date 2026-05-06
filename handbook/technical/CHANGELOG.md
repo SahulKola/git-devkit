@@ -1,5 +1,10 @@
 # Complete Change Log
 
+## [1.0.1] - 2026-05-06
+
+1. add overlay blur while loading animation 2. improve git loader animation
+
+
 ## [1.0.0] - 2026-05-06
 
 A comprehensive developer toolkit for Git advanced users
