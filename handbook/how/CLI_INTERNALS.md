@@ -222,7 +222,7 @@ await build({
 
 The output `dist/bin/index.js` is a single minified file that includes all of `lib/` and the three npm dependencies inlined. This means a user who installs from the Git repo via `npm link` does not need to run `npm install` on the production build — all dependencies are bundled.
 
-After bundling, the build script writes a clean `dist/package.json` with only the fields needed for npm publish (name, version, description, bin, license).
+After bundling, the build script writes a clean `dist/package.json` with only the fields needed for distribution (name, version, description, bin, license).
 
 ---
 

@@ -17,9 +17,7 @@
     "start": "git-multi-ssh",
     "clean": "rimraf dist",
     "build": "npm run clean && node scripts/build.mjs",
-    "pack:check": "npm run build && npm pack ./dist --dry-run",
-    "publish:npm": "npm run build && npm publish ./dist --access public",
-    "prepublishOnly": "npm run build"
+    "pack:check": "npm run build --dry-run"
   },
   "dependencies": {
     "chalk": "^5.0.0",
