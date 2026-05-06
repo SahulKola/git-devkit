@@ -1,20 +1,71 @@
 # Release Guide
 
-A step-by-step reference for shipping a versioned release of git-devkit. Covers the CLI package, the docs-app, and the GitHub release tag. Follow this every time you want to publish something to users.
+A step-by-step reference for shipping a versioned release of git-devkit. Covers the CLI, the docs-app, and the GitHub release tag.
+
+---
+
+## Automated release (recommended)
+
+Everything below is automated by `scripts/release.mjs`. Run it from the repo root:
+
+```bash
+npm run release
+```
+
+The script will:
+1. Verify you are on `main` with a clean working tree
+2. Ask you to choose a version bump (patch / minor / major / custom)
+3. Ask for a one-line release summary
+4. Build the CLI (`npm run build`)
+5. Build the docs-app (`pnpm run build:ghpages`)
+6. Bump `package.json` version
+7. Prepend a CHANGELOG entry
+8. `git commit` + `git tag -a vX.Y.Z`
+9. `git push origin main --tags`
+10. Deploy docs to GitHub Pages (`gh-pages`)
+11. Print a summary with links
+
+After the script finishes, go to GitHub → Releases, find the new tag, and publish it with the release notes from CHANGELOG.
+
+---
+
+## Release cadence — when to run it
+
+Consistency matters more than frequency. Follow this schedule:
+
+| Release type | When to trigger | Version bump |
+|---|---|---|
+| **Hotfix** | Immediately after a critical bug is found in production | `patch` |
+| **Regular** | After completing a meaningful batch of changes (features, docs, fixes) | `minor` |
+| **Milestone** | When a major capability is complete or a breaking change ships | `major` |
+
+**Practical rhythm for this project:**
+
+- Run `npm run release` (patch) whenever you push a set of fixes or documentation updates — aim for every **1–2 weeks** minimum
+- Run a minor release when a new page, feature, or workflow is fully complete
+- Never let `main` accumulate more than **2 weeks** of untagged commits — untagged changes make it impossible for users to reference a stable version
+- Before any release: run `pnpm test` inside `docs-app/` and confirm the build is green
+
+**Checklist before running the script:**
+
+- [ ] All changes committed and pushed to `main`
+- [ ] `git status` is clean
+- [ ] `pnpm test` passes in `docs-app/`
+- [ ] Any new feature has a docs-app page or handbook entry
 
 ---
 
 ## Overview of what a release includes
 
-git-devkit has three distinct "artifacts" that can be released independently or together:
+git-devkit has three release artifacts:
 
 | Artifact | What it is | Where it lives |
 |---|---|---|
-| CLI package | The `git-multi-ssh` Node.js tool | Published to npm, bundled from `bin/` |
-| Docs app | The Angular documentation site | Deployed as static output to GitHub Pages |
-| Git tag + GitHub Release | The version marker on the repo | GitHub Releases page |
+| CLI source | The `git-multi-ssh` Node.js tool | Git tag on this repository |
+| Docs app | The Angular documentation site | GitHub Pages |
+| Git tag + GitHub Release | The version marker | GitHub Releases page |
 
-In most cases you will release all three at once.
+In most cases you will release all three at once via `npm run release`.
 
 ---
 
