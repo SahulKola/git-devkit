@@ -10,8 +10,9 @@
   z-index: 95;
   display: grid;
   place-items: center;
-  background: color-mix(in srgb, var(--bg) 93%, transparent);
-  backdrop-filter: blur(1px);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(0.92);
+  backdrop-filter: blur(8px) saturate(0.92);
   pointer-events: none;
 }
 
