@@ -1,0 +1,116 @@
+<section class="use-cases-page">
+  <div class="container">
+    <div class="page-header">
+      <p class="eyebrow">Daily Workflow Examples</p>
+      <h1>Practical Multi-SSH Use Cases You Will Actually Use</h1>
+      <p>
+        These examples show how host aliases like <code>git@github-personal:username/repo.git</code> remove repetitive
+        remote edits and make context switching between personal, work, and client repositories safer.
+      </p>
+    </div>
+
+    <div class="section highlight">
+      <h2>Before vs After Multi-SSH</h2>
+      <div class="compare-grid">
+        <article>
+          <h3>Before</h3>
+          <ul>
+            <li>Check every remote before push</li>
+            <li>Rewrite <code>origin</code> URLs when switching accounts</li>
+            <li>Accidentally push with wrong identity</li>
+          </ul>
+        </article>
+        <article>
+          <h3>After</h3>
+          <ul>
+            <li>Use stable host aliases per account</li>
+            <li>Clone once, keep working without reconfiguration</li>
+            <li>Push confidently with deterministic identity mapping</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Use Case 1: Personal and Work GitHub on Same Machine</h2>
+      <p>Clone each repository with a dedicated host alias and never touch remote URLs again.</p>
+      <div class="code-block">
+        <pre><code># personal project
+ git clone git@github-personal:yourname/dotfiles.git
+
+ # work project
+ git clone git@github-work:your-org/platform-api.git
+
+ # daily usage stays normal
+ cd platform-api
+ git pull
+ git push</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Use Case 2: Avoid Remote Rewrite During Context Switching</h2>
+      <p>When you jump between client repos all day, alias-based remotes prevent repetitive fixes.</p>
+      <div class="code-block">
+        <pre><code># no need for repeated remote set-url
+ git remote -v
+ # origin git@github-client-a:client-a/web-app.git
+
+ # just branch and push
+ git checkout -b feat/payment-audit-log
+ git push -u origin feat/payment-audit-log</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Use Case 3: Same Repo Name Across Accounts</h2>
+      <p>
+        If you have <code>website</code> in personal and company accounts, host aliases make the target explicit and safe.
+      </p>
+      <div class="code-block">
+        <pre><code># personal website
+ git clone git@github-personal:yourname/website.git website-personal
+
+ # company website
+ git clone git@github-work:company/website.git website-work</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Use Case 4: Multi-Provider Workflow (GitHub + GitLab + Bitbucket)</h2>
+      <p>Use provider-specific aliases and keep one predictable pattern everywhere.</p>
+      <div class="code-block">
+        <pre><code>git clone git@github-work:team/service-api.git
+ git clone git@gitlab-client:client/mobile-backend.git
+ git clone git@bitbucket-legacy:ops/infra-scripts.git</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Use Case 5: Faster New Repo Bootstrap</h2>
+      <p>Create a repository and set origin once with the right identity from day one.</p>
+      <div class="code-block">
+        <pre><code>mkdir release-tool && cd release-tool
+ git init
+ git remote add origin git@github-work:your-org/release-tool.git
+ git add .
+ git commit -m "chore: initial scaffolding"
+ git push -u origin main</code></pre>
+      </div>
+    </div>
+
+    <div class="section tips">
+      <h2>Quick Daily Checklist</h2>
+      <ul>
+        <li>Use alias hosts in every clone URL</li>
+        <li>Keep repository folders grouped by account context</li>
+        <li>Verify once with <code>git remote -v</code>, then continue normally</li>
+        <li>Use <code>git config user.email</code> per repo only when intentionally overriding</li>
+      </ul>
+      <div class="cta">
+        <a routerLink="/installation" class="btn-secondary">Back to Installation</a>
+        <a routerLink="/stories" class="btn-primary">More Real-World Stories</a>
+      </div>
+    </div>
+  </div>
+</section>

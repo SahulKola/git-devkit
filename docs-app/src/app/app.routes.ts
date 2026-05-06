@@ -12,6 +12,11 @@ export const routes: Routes = [
     title: 'Git Multi-SSH Setup Guide',
   },
   {
+    path: 'multi-ssh-use-cases',
+    loadComponent: () => import('./pages/multi-ssh-use-cases').then(m => m.MultiSshUseCases),
+    title: 'Git Multi-SSH Daily Use Cases',
+  },
+  {
     path: 'aliases',
     loadComponent: () => import('./pages/aliases').then(m => m.Aliases),
     title: 'Git Aliases - Complete Reference',
