@@ -1,5 +1,10 @@
 # Complete Change Log
 
+## [1.0.0] - 2026-05-06
+
+A comprehensive developer toolkit for Git advanced users
+
+
 ## Summary
 
 Updated git-devkit from **macOS-only** to **fully cross-platform** (Windows, Linux, macOS) with comprehensive path handling, case-insensitive filesystem support, and platform-specific utilities.
