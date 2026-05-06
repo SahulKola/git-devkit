@@ -43,11 +43,16 @@ function fail(msg)        { log(`\n  ${c.red('✖')}  ${c.red(msg)}\n`); process
 
 // ─── shell execution ──────────────────────────────────────────────────────────
 function run(cmd, opts = {}) {
-  return execSync(cmd, {
+  const out = execSync(cmd, {
     encoding: 'utf8',
     stdio: opts.silent ? 'pipe' : 'inherit',
     cwd: opts.cwd || ROOT,
-  }).trim();
+  });
+
+  // execSync returns null when stdio is inherited; normalize to a string.
+  if (typeof out === 'string') return out.trim();
+  if (Buffer.isBuffer(out)) return out.toString('utf8').trim();
+  return '';
 }
 function runSilent(cmd, opts = {}) { return run(cmd, { ...opts, silent: true }); }
 
