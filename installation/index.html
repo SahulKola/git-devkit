@@ -63,6 +63,19 @@
   <!-- Preconnect to external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+
+  <!-- Google Analytics 4
+       Replace G-XXXXXXXXXX with your real Measurement ID from GA4.
+       See handbook/analytics/SETUP.md for step-by-step instructions.  -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // send_page_view: false — Angular's AnalyticsService fires page_view on every route change instead.
+    gtag('config', 'G-D1EWN5N5HK', { send_page_view: false });
+  </script>
   
   <!-- JSON-LD Schema Markup -->
   <script type="application/ld+json">
@@ -113,7 +126,7 @@ git remote -v
 # Work normally
 git checkout -b feat/add-healthcheck
 git push -u origin feat/add-healthcheck</code></pre></div><a _ngcontent-ng-c2643465639 routerlink="/multi-ssh-use-cases" class="inline-link" href="/git-devkit/multi-ssh-use-cases" jsaction="click:;">See more daily examples →</a></div><div _ngcontent-ng-c2643465639 class="section"><h2 _ngcontent-ng-c2643465639>Scenarios and Mitigations</h2><p _ngcontent-ng-c2643465639> See practical situations that happen without multi-SSH setup and how this library mitigates each one. </p><a _ngcontent-ng-c2643465639 routerlink="/multi-ssh-use-cases" class="inline-link" href="/git-devkit/multi-ssh-use-cases" jsaction="click:;">How to use Multi-SSH in daily workflow →</a><br _ngcontent-ng-c2643465639><a _ngcontent-ng-c2643465639 routerlink="/stories" fragment="multi-ssh-scenarios" class="inline-link" href="/git-devkit/stories#multi-ssh-scenarios" jsaction="click:;">View all scenarios and mitigations →</a></div><div _ngcontent-ng-c2643465639 class="section"><h2 _ngcontent-ng-c2643465639>Requirements</h2><ul _ngcontent-ng-c2643465639 class="req-list"><li _ngcontent-ng-c2643465639>Git ≥ 2.0</li><li _ngcontent-ng-c2643465639>Node.js ≥ 18 (for git-multi-ssh)</li><li _ngcontent-ng-c2643465639>Terminal support: Bash/Zsh (macOS or Linux), or PowerShell/CMD (Windows)</li><li _ngcontent-ng-c2643465639>Compatible with macOS, Windows, and Linux</li></ul></div></div></section></app-installation><!----></main><app-footer _ngcontent-ng-c469106220 _nghost-ng-c3435448280 ngh="1"><footer _ngcontent-ng-c3435448280 class="footer"><div _ngcontent-ng-c3435448280 class="container"><div _ngcontent-ng-c3435448280 class="footer-top"><div _ngcontent-ng-c3435448280 class="footer-brand"><span _ngcontent-ng-c3435448280 class="brand-name"><span _ngcontent-ng-c3435448280 class="git-brand">git</span>-devkit</span><p _ngcontent-ng-c3435448280>One toolkit for Git identity, commit quality, and team workflows.</p></div><nav _ngcontent-ng-c3435448280 aria-label="Footer" class="footer-links"><section _ngcontent-ng-c3435448280 aria-labelledby="footer-start" class="link-group"><h4 _ngcontent-ng-c3435448280 id="footer-start">Start</h4><a _ngcontent-ng-c3435448280 routerlink="/" href="/git-devkit/" jsaction="click:;">Home</a><a _ngcontent-ng-c3435448280 routerlink="/installation" href="/git-devkit/installation" jsaction="click:;">SSH Setup</a><a _ngcontent-ng-c3435448280 routerlink="/aliases" href="/git-devkit/aliases" jsaction="click:;">Aliases</a></section><section _ngcontent-ng-c3435448280 aria-labelledby="footer-flow" class="link-group"><h4 _ngcontent-ng-c3435448280 id="footer-flow">Flow</h4><a _ngcontent-ng-c3435448280 routerlink="/workflows" href="/git-devkit/workflows" jsaction="click:;">Workflows</a><a _ngcontent-ng-c3435448280 routerlink="/branching" href="/git-devkit/branching" jsaction="click:;">Branching</a><a _ngcontent-ng-c3435448280 routerlink="/commits" href="/git-devkit/commits" jsaction="click:;">Commits</a></section><section _ngcontent-ng-c3435448280 aria-labelledby="footer-learn" class="link-group"><h4 _ngcontent-ng-c3435448280 id="footer-learn">Learn</h4><a _ngcontent-ng-c3435448280 routerlink="/stories" href="/git-devkit/stories" jsaction="click:;">Stories</a><a _ngcontent-ng-c3435448280 routerlink="/bytes" href="/git-devkit/bytes" jsaction="click:;">Bytes</a></section><section _ngcontent-ng-c3435448280 aria-labelledby="footer-links" class="link-group"><h4 _ngcontent-ng-c3435448280 id="footer-links">External</h4><a _ngcontent-ng-c3435448280 href="https://github.com/sahulkola/git-devkit" target="_blank" rel="noopener" aria-label="GitHub repository, opens in a new tab" class="footer-github">GitHub Repository</a><a _ngcontent-ng-c3435448280 href="https://github.com/GitAlias/gitalias" target="_blank" rel="noopener" aria-label="GitAlias project, opens in a new tab">GitAlias</a></section></nav></div><div _ngcontent-ng-c3435448280 class="footer-bottom"><span _ngcontent-ng-c3435448280>Built by <a _ngcontent-ng-c3435448280 href="https://sahulkola.github.io" target="_blank" rel="noopener" aria-label="Sahul Kola portfolio, opens in a new tab">Sahul Kola</a></span><span _ngcontent-ng-c3435448280 class="sep">·</span><span _ngcontent-ng-c3435448280>Angular SSG docs for git-devkit</span></div></div></footer></app-footer></app-root>
-<link rel="modulepreload" href="chunk-K7K7DXIC.js"><link rel="modulepreload" href="chunk-GXAJEVJC.js"><script src="main-EDZZDU6N.js" type="module"></script>
+<link rel="modulepreload" href="chunk-K7K7DXIC.js"><link rel="modulepreload" href="chunk-GXAJEVJC.js"><script src="main-KAESWV2B.js" type="module"></script>
 <link rel="modulepreload" href="chunk-YIAXQ7YN.js">
 
 
