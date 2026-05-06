@@ -1,5 +1,10 @@
 # Complete Change Log
 
+## [1.1.1] - 2026-05-06
+
+fix measurement-id to track G4A analytics
+
+
 ## [1.1.0] - 2026-05-06
 
 Add G4A analytics to understand more on user traffic
