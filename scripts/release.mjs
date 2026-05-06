@@ -63,7 +63,7 @@ function prompt(question) {
 }
 
 function promptChoice(question, choices) {
-  const lines = choices.map((c, i) => `    ${c.dim(`${i + 1}.`)} ${c.label}`).join('\n');
+  const lines = choices.map((choice, i) => `    ${c.dim(`${i + 1}.`)} ${choice.label}`).join('\n');
   log(`\n  ${question}`);
   log(lines);
   return (async () => {
