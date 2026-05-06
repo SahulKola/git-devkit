@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Header } from './layout/header';
 import { Footer } from './layout/footer';
 import { SEOService } from './core/seo.service';
+import { AnalyticsService } from './core/analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +20,12 @@ export class App {
 
   constructor(
     private seoService: SEOService,
+    private analyticsService: AnalyticsService,
     private router: Router,
     private destroyRef: DestroyRef,
   ) {
-    // SEO service is initialized and manages meta tags
+    // SEO service manages meta tags; analytics service tracks route page views
+    this.analyticsService.init();
     this.initializeRouteLoader();
 
     // Lock body scroll while the loader is visible

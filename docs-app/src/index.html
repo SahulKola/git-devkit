@@ -65,6 +65,19 @@
   <!-- Preconnect to external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+
+  <!-- Google Analytics 4
+       Replace G-XXXXXXXXXX with your real Measurement ID from GA4.
+       See handbook/analytics/SETUP.md for step-by-step instructions.  -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // send_page_view: false — Angular's AnalyticsService fires page_view on every route change instead.
+    gtag('config', 'G-D1EWN5N5HK', { send_page_view: false });
+  </script>
   
   <!-- JSON-LD Schema Markup -->
   <script type="application/ld+json">
